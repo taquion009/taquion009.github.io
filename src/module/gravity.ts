@@ -10,6 +10,7 @@ import imgNpm from '../../public/img/npm.png'
 import imgVsc from '../../public/img/vsc.png'
 import imgJson from '../../public/img/json.png'
 import imgPorfile from '../../public/img/profile.jpg'
+import '../styles/gravity.scss'
 
 const {Engine, Render, Bodies, Vertices, World, MouseConstraint, Events, Runner} = Matter
 
@@ -174,25 +175,25 @@ const engine = Matter.Engine.create()
       yM = h/2;
     }
     
-    const $profile = document.querySelector<HTMLElement>('.porfile-container')
-    $profile.style.left = xM + 'px';
-    $profile.style.top = yM + 'px';
-    $profile.style.transform = 'translate(calc(-50% - 1px),-50%) scale(' + scale + ')';
+    // const $profile = document.querySelector<HTMLElement>('.porfile-container')
+    // $profile.style.left = xM + 'px';
+    // $profile.style.top = yM + 'px';
+    // $profile.style.transform = 'translate(calc(-50% - 1px),-50%) scale(' + scale + ')';
 
-    const profile = Bodies.rectangle(xM, yM, 201, 251, {
-      isStatic: true,
-      render: {
-        sprite: {
-          texture: imgPorfile,
-          xScale: 1,
-          yScale: 1
-      },
-      }
-    })
+    // const profile = Bodies.rectangle(xM, yM, 201, 251, {
+    //   isStatic: true,
+    //   render: {
+    //     sprite: {
+    //       texture: imgPorfile,
+    //       xScale: 1,
+    //       yScale: 1
+    //   },
+    //   }
+    // })
 
-    profile.render.sprite.xScale = scale;
-    profile.render.sprite.yScale = scale;
-    Matter.Body.scale(profile, scale, scale)
+    // profile.render.sprite.xScale = scale;
+    // profile.render.sprite.yScale = scale;
+    // Matter.Body.scale(profile, scale, scale)
   
     const wallOptions = {
       isStatic: true,
@@ -208,7 +209,7 @@ const engine = Matter.Engine.create()
     
     
     World.add(engine.world, [
-      profile,
+      // profile,
       ground,
       ceiling,
       leftWall,
@@ -227,12 +228,12 @@ const engine = Matter.Engine.create()
         npm,
         json,
       ],
-      porfile:profile
+      // porfile:profile
   }
   }
 
-  function gravity(eventResize: any) {
-  const sectionTag = document.querySelector<HTMLElement>(".shapes")
+  function gravity(eventResize?: any) {
+  const sectionTag = document.querySelector<HTMLElement>(".gravity")
     if(eventResize){
       window.removeEventListener('resize', eventResize, false)
     }
@@ -322,16 +323,8 @@ const engine = Matter.Engine.create()
         elements.elements.splice(elements.elements.indexOf(element), 1);
         World.add(engine.world, element);
         if(elements.elements.length > 0) {
-          const generar = ():any => {
-            let numX = Math.floor(Math.random() * ((w-50) - 50) + 50)
-            let numY = Math.floor(Math.random() * ((h-50) - 50) + 50)
-            if(numX >= elements.porfile.vertices[0].x - 40 && numX <= elements.porfile.vertices[1].x + 40
-            && numY >= elements.porfile.vertices[0].y - 40 && numY <= elements.porfile.vertices[2].y + 40) {
-              return generar()
-            }
-            return [numX, numY]
-          }
-          let [x, y] = generar()
+            let x = Math.floor(Math.random() * ((w-50) - 50) + 50)
+            let y = Math.floor(Math.random() * ((h-50) - 50) + 50)
           $click.style.left = x + 'px';
           $click.style.top = y + 'px';
           Matter.Body.set(click, "position", {
@@ -358,18 +351,16 @@ const engine = Matter.Engine.create()
         renderer.canvas = null;
         renderer.context = null;
         renderer.textures = {};
-        // renderer.sprites = {};
-        document.querySelector(".s1-container").removeChild(document.querySelector(".shapes"))
+        renderer.sprites = {};
+        document.querySelector(".container-gravity").removeChild(document.querySelector(".gravity"));
         let canvas = document.createElement("div")
-        canvas.classList.add("shapes")
-        document.querySelector(".s1-container").appendChild(canvas)
+        canvas.classList.add("gravity")
+        document.querySelector(".container-gravity").appendChild(canvas)
         gravity(event)
       }
     }
     window.addEventListener('resize', event, false);
 
 };
-
-gravity(null)
 
 export default gravity;

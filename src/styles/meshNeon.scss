@@ -1,0 +1,29 @@
+/* -------------------------------- CANVAS MESH NEON -------------------------*/
+.container-meshNeon{
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  z-index: -4;
+
+}
+
+// .container-meshNeon .shadow {
+//   position: absolute;
+//   top: 0;
+//   left: 0%;
+//   width: 100%;
+//   height: 100%;
+//   background-image: linear-gradient(271deg, #ffffff00 57%, #141a22 100%);
+//   z-index: 1;
+// }
+
+.container-meshNeon canvas.meshNeon{
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: -5;
+  }

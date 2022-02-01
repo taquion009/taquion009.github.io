@@ -1,15 +1,17 @@
 import gravity from './module/gravity';
 import screenFull from './module/screenFull'
 import eclipse from './module/eclipse'
-import trailsNeon from './module/trailsNeon';
+import meshNeon from './module/meshNeon';
 import animationSkill from './module/animationSkill';
 import animationHome from './module/animationHome';
 import animationAbout from './module/animationAbout';
 import animationWork from './module/animationWork';
 import animationContact from './module/animationContact';
-import './style.scss';
+import './main.scss';
+import './styles/home.scss';
+import './styles/header.scss';
 window.addEventListener('DOMContentLoaded', function(){
-    gravity(false)
+    gravity()
     screenFull()
     eclipse()
     animationSkill()
@@ -17,5 +19,5 @@ window.addEventListener('DOMContentLoaded', function(){
     animationAbout()
     animationWork()
     animationContact()
-    trailsNeon()
+    meshNeon()
 })

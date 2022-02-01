@@ -4,22 +4,22 @@ import { gsap } from "gsap";
 const animationHome = () => {
     grate(1, 0.6, ".grate-1")
 
-    gsap.timeline({
-        repeat:0,
-        delay:0.3
-    }).from(".porfile-container", {
-        duration: 0.1,
-        backgroundColor: "#fff",
-    }).to(".porfile-container", {
-        duration: 0.1,
-        backgroundColor: "transparent",
-    }).to(".porfile-container", {
-        duration: 0.1,
-        backgroundColor: "#fff",
-    }).to(".porfile-container", {
-        duration: 0.1,
-        backgroundColor: "transparent",
-    })
+    // gsap.timeline({
+    //     repeat:0,
+    //     delay:0.3
+    // }).from(".porfile-container .light", {
+    //     duration: 0.1,
+    //     backgroundColor: "#fff",
+    // }).to(".porfile-container .light", {
+    //     duration: 0.1,
+    //     backgroundColor: "transparent",
+    // }).to(".porfile-container .light", {
+    //     duration: 0.1,
+    //     backgroundColor: "#fff",
+    // }).to(".porfile-container .light", {
+    //     duration: 0.1,
+    //     backgroundColor: "transparent",
+    // })
 
     gsap.from(".click", {
         delay: 1.8,
