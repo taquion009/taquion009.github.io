@@ -1,5 +1,5 @@
 /* -------------------------------- SECCION ONE HOME ---------------------------------- */
-.section-container .s1{
+  .section-container .s1{
     transform: translateY(0px);
     background-color: var(--background-primary);
     overflow: hidden;
@@ -131,7 +131,7 @@
   @media screen and (max-width: 980px){
     .section-container .s1 .s1-container{
       padding: 5em 2.5em;
-      justify-content: flex-start;
+      justify-content: center;
       text-align: center;
       align-items: center;
       flex-direction: column-reverse;
@@ -139,12 +139,11 @@
     .section-container .s1 .s1-title {
       z-index: -4;
       position: relative;
-      height: 50%;
       display: flex;
       flex-direction: column;
       flex-wrap: nowrap;
       align-content: center;
-      justify-content: flex-start;
+      justify-content: center;
       align-items: center;
       max-width: 100%;
   }

@@ -36,6 +36,26 @@ header .container-header .header ul{
   gap: 2em;
 }
 
+header .container-header .header .menu{
+  display:none;
+}
+
+header .container-header .header .menu > *{
+  width: 2em;
+  height: 2em;
+  cursor: pointer;
+}
+
+header .container-header .header .menu > * > i{
+  transform: scale(2) translate(5px, 2px);
+  transition: color 0.3s ease-in-out;
+  color: var(--color-text-primary);
+}
+
+header .container-header .header .menu > * > i:hover{
+  color: var(--color-text-secondary);
+}
+
 header .container-header .header ul li a{
   text-decoration: none;
   color: var(--color-text-primary);
@@ -48,4 +68,22 @@ header .container-header .header ul li a{
 
 header .container-header .header ul li a:hover{
   color: var(--color-text-secondary);
+}
+
+@media screen and (max-width: 980px){
+  header .container-header .header ul{
+    display: none;
+  }
+
+  header .container-header .header .menu{
+    display:flex;
+  }
+
+  header .container-header .header .menu > *{
+    display:none;
+  }
+
+  header .container-header .header .menu > *.active{
+    display:inline-block;
+  }
 }

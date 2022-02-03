@@ -11,7 +11,7 @@ const meshNeon = () => {
     let sizeH = Math.max(height,width) / 40
     let gap = 5
     let speed = 0.001
-    let t = 1
+    let t = Math.round(Math.random() * 1000)
     let maxCountW = Math.round(width/(sizeH+gap))
     let maxCountH = Math.round(height/(sizeH+gap))
     let widthH = sizeH+(sizeH - gap)*Math.cos(Math.PI/6)+1
