@@ -2,10 +2,12 @@
     --time-animation: 0.5s;
     -ms-overflow-style: none;
     --max-width: 1250px;
+    --color-primary:#08fd97;
+    --color-secondary:#fd076d;
     --color-text-primary: #fff;
-    --color-text-secondary: rgb(150, 150, 150);
+    --color-text-secondary: rgb(0, 0, 0);
     --color-stick-active: #bef0ff;
-    --background-primary:rgb(20, 26, 34); 
+    --background-primary:#181818; 
 }
   
   html {
@@ -27,113 +29,6 @@
     font-size: 16px;
     background-color: var(--background-primary);
   }
-
-/* -------------------------------- SECCION TWO ABOUT ---------------------------------- */
-.section-container .s2{
-  background-color: var(--background-primary);
-  overflow: hidden;
-}
-
-.section-container .s2 .s2-container{
-  padding: 2em;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-content: center;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  max-width: var(--max-width);
-  margin: auto;
-} 
-
-.section-container .s2 .s2-container > *{
-  width: 50%;
-}
-
-.section-container .s2 .s2-container .s2-content{
-  padding: 1em;
-  text-align: left;
-  transform: translate(-100%,0%);
-  opacity: 0;
-}
-
-.section-container .s2 .s2-container .s2-content h3{
-  font-size: 2.2em;
-  margin-bottom: 0.5em;
-}
-
-.section-container .s2 .s2-container .s2-content p{
-  font-size: 1.2em;
-  font-weight: 400;
-}
-
-
-.section-container .s2 figure{
-  position: absolute;
-  top: 100%;
-  left: 100%;
-  transform: translate(100%,-96%);
-  margin: 0;
-  padding: 0;
-  width: 50vw;
-  opacity: 0;
-  display: flex;
-  opacity: 0;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: flex-end;
-  flex-wrap: nowrap;
-  z-index: 1;
-}
-
-.section-container .s2 figure img{
-  width: 100%;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  object-position: center;
-}
-
-.section-container .s2  .s2-container canvas{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
-  background-color: transparent;
-  opacity: 0;
-}
-
-
-
-@media screen and (max-width: 980px){
-  .section-container .s2 .s2-container{
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-  }
-  
-  .section-container .s2 .s2-container > *{
-    width: 100%;
-  }
-
-  .section-container .s2 .s2-container .s2-content h3{
-    font-size: 1.4em;
-  }
-
-  .section-container .s2 .s2-container .s2-content p{
-    font-size: 1em;
-  }
-
-  .section-container .s2 figure{
-    display: none;
-  }
-
-}
 
 /* -------------------------------- SCROLL FULLPAGE ---------------------------------- */
 body::-webkit-scrollbar {
@@ -538,6 +433,7 @@ body::-webkit-scrollbar {
   border-top: none;
   z-index: -2;
   border-bottom: none;
+  // opacity: 0;
 }
 
 .grate::after{
@@ -550,12 +446,99 @@ body::-webkit-scrollbar {
   border: 3px solid #eaeaea;
 }
 
-.grate::before{
-  /* content: ''; */
-  position: absolute;
-  top: 180%;
-  left: 0%;
-  width: 100%;
-  height: 46px;
-  border: 3px solid #eaeaea;
+
+.glitch {
+  font-size: 5em;
+  &:before,
+  &:after{
+    content: attr(data-text-glitch);
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    opacity: .8;
+    display:none;
+  }
+  &:after {
+    color: var(--color-secondary);
+    z-index: -2;
+  }
+  &:before {
+    color: var(--color-primary);
+    z-index: -1;
+  }
+  &:hover {
+    &:before {
+      display: block;
+      animation: glitch-left .3s cubic-bezier(.25, .46, .45, .94) both infinite
+    }
+    &:after {
+      display: block;
+      animation: glitch-left-2 .3s cubic-bezier(.25, .46, .45, .94) reverse both infinite
+    }
+  }
+}
+
+@keyframes glitch-small {
+    0% {
+        transform: translate(0)
+    }
+    33% {
+        transform: translate(2px, 1px)
+    }
+    66% {
+        transform: translate(-1px, -1px)
+    }
+    to {
+        transform: translate(0)
+    }
+}
+@keyframes glitch-medium {
+    0% {
+        transform: translate(0)
+    }
+    20% {
+        transform: translate(-2px, 2px)
+    }
+    40% {
+        transform: translate(-2px, -2px)
+    }
+    60% {
+        transform: translate(2px, 2px)
+    }
+    80% {
+        transform: translate(2px, -2px)
+    }
+    to {
+        transform: translate(0)
+    }
+}
+@keyframes glitch-left {
+    0% {
+        transform: translate(0)
+    }
+    33% {
+        transform: translate(-5px, 3px)
+    }
+    66% {
+        transform: translate(5px, -3px)
+    }
+    to {
+        transform: translate(0)
+    }
+}
+@keyframes glitch-left-2 {
+    0% {
+        transform: translate(0)
+    }
+    33% {
+        transform: translate(-5px, -3px)
+    }
+    66% {
+        transform: translate(5px, 2px)
+    }
+    to {
+        transform: translate(0)
+    }
 }

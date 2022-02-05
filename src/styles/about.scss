@@ -1,0 +1,109 @@
+/* -------------------------------- SECCION TWO ABOUT ---------------------------------- */
+.section-container .s2{
+  background-color: var(--background-primary);
+  overflow: hidden;
+}
+
+.section-container .s2 .s2-container{
+  padding: 2em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: var(--max-width);
+  margin: auto;
+} 
+
+.section-container .s2 .s2-container > *{
+  width: 50%;
+}
+
+.section-container .s2 .s2-container .s2-content{
+  padding: 4em 1em;
+  text-align: left;
+  transform: translate(-100%,0%);
+  opacity: 0;
+}
+
+.section-container .s2 .s2-container .s2-content h3{
+  font-size: 2.5em;
+  margin-bottom: 0.5em;
+  text-shadow: 3px 3px var(--color-secondary);
+  position: relative;
+  display: inline-block;
+}
+
+.section-container .s2 .s2-container .s2-content p{
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+
+.section-container .s2 figure{
+  position: absolute;
+  top: 100%;
+  left: 100%;
+  transform: translate(100%,-96%);
+  margin: 0;
+  padding: 0;
+  width: 50vw;
+  opacity: 0;
+  display: flex;
+  opacity: 0;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  z-index: 1;
+}
+
+.section-container .s2 figure img{
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.section-container .s2  .s2-container canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background-color: transparent;
+  opacity: 0;
+}
+
+
+
+@media screen and (max-width: 980px){
+  .section-container .s2 .s2-container{
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .section-container .s2 .s2-container > *{
+    width: 100%;
+  }
+
+  .section-container .s2 .s2-container .s2-content h3{
+    font-size: 1.4em;
+  }
+
+  .section-container .s2 .s2-container .s2-content p{
+    font-size: 1em;
+  }
+
+  .section-container .s2 figure{
+    display: none;
+  }
+
+}

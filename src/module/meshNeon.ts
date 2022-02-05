@@ -16,6 +16,7 @@ const meshNeon = () => {
     let maxCountH = Math.round(height/(sizeH+gap))
     let widthH = sizeH+(sizeH - gap)*Math.cos(Math.PI/6)+1
     let heightH = sizeH+(sizeH - gap)*Math.sin(Math.PI/6)+1
+    let color = "rgba(8, 253, 117,"
 
     class Hexagon {
         x: number
@@ -78,7 +79,7 @@ const meshNeon = () => {
         }
 
         updateDraw(){
-            this.color = `rgba(0,255,0,${this.alpha})`
+            this.color = `${color}${this.alpha})`
             this.alpha -= 0.01
             if(this.alpha <= 0){
                 this.drawM = false
@@ -103,8 +104,7 @@ const meshNeon = () => {
     function init() {
         for (let x = 0; x < maxCountW; x++) {
             for (let y = 0; y < maxCountH; y++) {
-                let color = `rgb(0,255,0,${simplex.noise2D(x / 6+t,y / 6+t)})`
-                hexagons.push(new Hexagon(x*(sizeH*2)+gap, y*(sizeH*2)+gap, color))
+                hexagons.push(new Hexagon(x*(sizeH*2)+gap, y*(sizeH*2)+gap,`${color}${simplex.noise2D(x / 6+t,y / 6+t)+0.4})`))
             }
         }
     }
@@ -113,9 +113,8 @@ const meshNeon = () => {
     function loop() {
             let i = 0
             for (let x = 0; x < maxCountW; x++) {
-                for (let y = 0; y < maxCountH; y++) {
-                        let color = `rgb(0,255,0,${simplex.noise2D(x / 6+t,y / 6+t)})`
-                        hexagons[i].update(color)
+                for (let y = 0; y < maxCountH; y++) { 
+                        hexagons[i].update(`${color}${simplex.noise2D(x / 6+t,y / 6+t)})`)
                         i++
                 }
             }

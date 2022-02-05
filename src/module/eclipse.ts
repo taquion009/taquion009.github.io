@@ -141,6 +141,7 @@ const eclipse = () => {
             cambio = 0
         }
 
+        c.beginPath();
         createCircle(position.x, position.y, size+7, '#000', ["#fff",4], false)
         window.requestAnimationFrame(draw);
     };

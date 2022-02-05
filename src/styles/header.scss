@@ -8,7 +8,6 @@ header{
   display: flex;
   align-items: center;
   justify-content: space-around;
-  padding: 0 1em;
 }
 
 header .container-header{
@@ -33,7 +32,21 @@ header .container-header .header ul{
   align-content: center;
   justify-content: space-around;
   align-items: center;
-  gap: 2em;
+  gap: 1em;
+}
+
+header .container-header .header ul li a{
+  padding: 1em;
+}
+
+header .container-header .header ul li a:hover{
+  background-color: var(--color-primary);
+  border-radius: 5px;
+}
+
+header .container-header .header ul li a{
+  text-decoration: none;
+  color: var(--color-text);
 }
 
 header .container-header .header .menu{
@@ -41,19 +54,23 @@ header .container-header .header .menu{
 }
 
 header .container-header .header .menu > *{
-  width: 2em;
-  height: 2em;
+  width: 3em;
+  height: 3em;
   cursor: pointer;
-}
-
-header .container-header .header .menu > * > i{
-  transform: scale(2) translate(5px, 2px);
-  transition: color 0.3s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #00000094;
   color: var(--color-text-primary);
 }
 
-header .container-header .header .menu > * > i:hover{
-  color: var(--color-text-secondary);
+header .container-header .header .menu > * > i{
+  transform: scale(2) translate(4%, 0%);
+}
+
+header .container-header .header .menu > *:hover{
+  background-color: var(--color-primary);
+  color: var(--background-primary);
 }
 
 header .container-header .header ul li a{
@@ -63,11 +80,10 @@ header .container-header .header ul li a{
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .5px;
-  transition: color 0.3s ease-in-out;
 }
 
-header .container-header .header ul li a:hover{
-  color: var(--color-text-secondary);
+header .container-header .header ul li:hover a{
+  color: var(--color-text-primary);
 }
 
 @media screen and (max-width: 980px){
@@ -84,6 +100,6 @@ header .container-header .header ul li a:hover{
   }
 
   header .container-header .header .menu > *.active{
-    display:inline-block;
+    display:flex;
   }
 }

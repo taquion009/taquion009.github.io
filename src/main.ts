@@ -9,15 +9,17 @@ import animationWork from './module/animationWork';
 import animationContact from './module/animationContact';
 import './main.scss';
 import './styles/home.scss';
+import './styles/about.scss';
+import './styles/skill.scss';
 import './styles/header.scss';
 window.addEventListener('DOMContentLoaded', function(){
-    gravity()
+    meshNeon();
     screenFull()
     eclipse()
+    gravity()
     animationSkill()
     animationHome()
     animationAbout()
     animationWork()
-    animationContact()
-    meshNeon()
+    animationContact();
 })

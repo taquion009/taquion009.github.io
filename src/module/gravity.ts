@@ -1,5 +1,6 @@
 
 import * as Matter from 'matter-js'
+
 import imgGithub from '../../public/img/github.png'
 import imgReact from '../../public/img/reactjs.png'
 import imgJs from '../../public/img/js.png'
@@ -9,9 +10,8 @@ import imgNode from '../../public/img/nodejs.png'
 import imgNpm from '../../public/img/npm.png'
 import imgVsc from '../../public/img/vsc.png'
 import imgJson from '../../public/img/json.png'
-import '../styles/gravity.scss'
 
-const {Engine, Render, Bodies, Vertices, World, MouseConstraint, Events, Runner} = Matter
+const {Engine, Render, Bodies, World, MouseConstraint, Events, Runner} = Matter
 
 const engine = Matter.Engine.create()
 
@@ -42,10 +42,11 @@ const engine = Matter.Engine.create()
       positions:number[][],
       widthElement:number,
       size:number,
-      space: number,
+      content: string[],
       engine: Matter.Engine
     ): Matter.Body[] => {
     let elements = []
+
     for(let i = 0; i < img.length; i++){
       let element = Bodies.rectangle((positions[i][0]),positions[i][1], widthElement, widthElement, {
           isStatic: true,
@@ -54,12 +55,22 @@ const engine = Matter.Engine.create()
                 sprite:{
                   xScale:size,
                   yScale:size,
-                  texture: img[i]
-                }
+                  texture: img[i],
+                },
             }
           });
-    World.add(engine.world, [element])
-          elements.push(element)
+
+      World.add(engine.world, [element])
+      elements.push(element)
+      let $spanText = document.createElement('span')
+      $spanText.innerHTML = content[i] || "Otro"
+      $spanText.style.position = 'absolute'
+      $spanText.style.top = `${positions[i][1]+widthElement/2+(10*size)}px`
+      $spanText.style.left = `${positions[i][0]-widthElement/2-25}px`
+      $spanText.style.width = `${50+widthElement}px`
+      $spanText.style.height = `30px`
+      $spanText.style.fontSize = `${16*size}px`
+      document.querySelector<HTMLElement>(".container-gravity").appendChild($spanText)
     }
     return elements
   }
@@ -69,17 +80,18 @@ const engine = Matter.Engine.create()
     let positions: number[][] = []
 
     let row = 0
-    let borderH = 200
+    let cantidad = 18
+    let borderH = 25
     let space = 0
     let borderW = 80
     let borderTop = 64
     let widthElement = 75
-    let margin = 10
-    let size = ((w-(borderW*2)+widthElement) + (h - (borderH)))/ (18 * widthElement)
+    let margin = 12
+    let size = ((w-(borderW*2)+widthElement) + (h - (borderH)))/ (cantidad * widthElement)
     if(size > 1)size=1
     widthElement *= size
-    let y = widthElement+margin+borderTop
-    for(let i = 0; i < 18; i++){
+    let y = widthElement+borderTop+borderH+(margin*2)*size
+    for(let i = 0; i < cantidad; i++){
       let x = borderW+(row*(widthElement+margin))
       if(w > 1250){
         x += (w-1250)/2
@@ -87,7 +99,7 @@ const engine = Matter.Engine.create()
       
       if(x > w-borderW || x > (w-1250)/2 + (1250-borderW)){
         space = ((w-(borderW*2)+widthElement) - ((widthElement+margin) * row))/row
-        y += widthElement+margin
+        y += widthElement+((margin*2)*size)
         x = borderW
         if(w > 1250){
           x += (w-1250)/2
@@ -114,11 +126,11 @@ const engine = Matter.Engine.create()
     })
 
     let elements = getELements(
-      [imgJs,imgJs, imgJs, imgJs, imgJs, imgJs, imgJs, imgJs, imgJs,imgJs,imgJs, imgJs, imgJs, imgJs, imgJs, imgJs, imgJs, imgJs],
+      [imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs],
       positions,
       widthElement-margin,
       size,
-      space,
+      ["NodeJS", "JavaScript", "CSS", "HTML", "React", "TypeScript", "Material ui", "NextJS", "SCSS", "StyledComp"],
       engine
     )
       
@@ -214,7 +226,7 @@ const engine = Matter.Engine.create()
       }
     });
 
-    const click = Bodies.circle(w-(w/5), h/2, 40, {
+    const click = Bodies.circle(w/2, h-h/5, 40, {
         isStatic: true,
         isSensor: true,
         render:{
@@ -223,19 +235,14 @@ const engine = Matter.Engine.create()
         }
 
   });
-    const $click = document.querySelector<HTMLElement>('.click')
-    $click.style.left = w-(w/5) + 'px';
-    $click.style.top = h/2 + 'px';
-    $click.style.display = 'flex';
-    $click.style.transform = 'translate(-50%, -50%)';
 
+    const $click = document.querySelector<HTMLElement>('.click')
+    $click.style.position = 'absolute'
+    $click.style.left = w/2 + 'px';
+    $click.style.top = h-h/5 + 'px';
+    $click.style.display = 'flex';
     click.agregar= true
 
-    if(w < 980){
-      $click.style.left = w/2 + 'px';
-      $click.style.top = h-h/5 + 'px';
-      Matter.Body.set(click, "position", {x: w/2, y: h-h/5});
-    }
 
     World.add(engine.world, click);
 
@@ -263,7 +270,7 @@ const engine = Matter.Engine.create()
         renderer.context = null;
         renderer.textures = {};
         renderer.sprites = {};
-        document.querySelector(".container-gravity").removeChild(document.querySelector(".gravity"));
+        document.querySelector(".container-gravity").innerHTML = "";
         let canvas = document.createElement("div")
         canvas.classList.add("gravity")
         document.querySelector(".container-gravity").appendChild(canvas)

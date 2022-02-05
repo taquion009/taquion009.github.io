@@ -1,0 +1,107 @@
+/* -------------------------------- SECCION THREE SKILL ---------------------------------- */
+.section-container .s3{
+  background-color: var(--background-primary);
+  overflow: hidden;
+}
+
+.section-container .s3 .s3-container{
+  padding: 2em;
+  display: flex;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  max-width: var(--max-width);
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+} 
+
+.section-container .s3 .s3-container .s3-content{
+  margin-top: 3em;
+}
+
+.section-container .s3 .s3-container .s3-content h3{
+  font-size: 1.75em;
+  margin-bottom: 0.5em;
+}
+
+.section-container .s3 .s3-container .s3-content p{
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+/* -------------------------------- CANVAS PHYSIC -------------------------*/
+.container-gravity{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+}
+
+.container-gravity > span{
+  z-index: -5;
+  color:#ffffff;
+  text-align: center;
+}
+
+
+.container-gravity canvas{
+  overflow: scroll;
+  z-index: 6;
+}
+
+.click{
+  width: 80px;
+  height: 80px;
+  border-radius: 100%;
+  position: absolute;
+  top: 19%;
+  left: 2.5%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-size: 12px;
+  z-index: -4;
+  font-family: cursive;
+  transform: scale(0) translate(-50%, -50%);
+}
+
+.click .border{
+  width: 80px;
+  height: 80px;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  position: absolute;
+  top: -1px;
+  left: -2px;
+}
+.click::after{
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  width: 80px;
+  height: 80px;
+  border: 2px solid #fff;
+  border-radius: 100%;
+  filter: blur(5px);
+}
+
+@media screen and (max-width: 980px){
+  .section-container .s3 .s3-container .s3-content h3{
+    font-size: 1.4em;
+  }
+
+  .section-container .s3 .s3-container .s3-content p{
+    font-size: 1em;
+  }
+
+}
