@@ -18,6 +18,10 @@ const meshNeon = () => {
     let heightH = sizeH+(sizeH - gap)*Math.sin(Math.PI/6)+1
     let color = "rgba(8, 253, 117,"
 
+    if(width < 980){
+        sizeH = Math.max(height,width) / 30
+    }
+
     class Hexagon {
         x: number
         y: number
@@ -133,6 +137,9 @@ const meshNeon = () => {
         hexagons = []
         widthH = sizeH+(sizeH - gap)*Math.cos(Math.PI/6)+1
         heightH = sizeH+(sizeH - gap)*Math.sin(Math.PI/6)+1
+        if(width < 980){
+            sizeH = Math.max(height,width) / 30
+        }
         init()
     })
 

@@ -1,3 +1,5 @@
+import "../styles/eclipse.scss"
+
 const eclipse = () => {
     let canvas = document.querySelector<HTMLCanvasElement>('canvas.eclipse'),
         w = canvas.width = window.innerWidth,
@@ -80,13 +82,10 @@ const eclipse = () => {
             position.y = y
     };
     
-    document.querySelector(".s2").addEventListener('mousemove', function(e) {
+    document.querySelector(".s5").addEventListener('mousemove', function(e) {
         getCursorPosition(e)
     })
 
-    document.querySelector(".s2").addEventListener('touchmove', function(e) {
-        getCursorPosition(e)
-    })
 
     class Fuego {
         x: number;

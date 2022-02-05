@@ -14,18 +14,18 @@ const animationAbout = () => {
                 if (entry.intersectionRatio >= 0.8) {
                     grate(1, 0.3, ".grate-2")
     
-                    gsap.timeline({
-                        repeat:0,
-                        delay:0.1,
-                    }).to(".berserk-img", {
-                        duration: 0.5,
-                        x: "-100%",
-                        opacity: 1,
-                    })
+                    // gsap.timeline({
+                    //     repeat:0,
+                    //     delay:0.1,
+                    // }).to(".berserk-img", {
+                    //     duration: 0.5,
+                    //     x: "-100%",
+                    //     opacity: 1,
+                    // })
     
-                    gsap.set(".berserk-img", {
-                        y: "-98%",
-                    })
+                    // gsap.set(".berserk-img", {
+                    //     y: "-98%",
+                    // })
     
                     gsap.timeline({
                         repeat:0,
@@ -36,14 +36,14 @@ const animationAbout = () => {
                         opacity: 1,
                     })
     
-                    gsap.timeline({
-                        repeat:0,
-                        delay:0.2,
-                    }).to(".s2 canvas", {
-                        duration: 0.5,
-                        scale: 1,
-                        opacity: 1,
-                    })
+                    // gsap.timeline({
+                    //     repeat:0,
+                    //     delay:0.2,
+                    // }).to(".s2 canvas", {
+                    //     duration: 0.5,
+                    //     scale: 1,
+                    //     opacity: 1,
+                    // })
                 }
             }   
           });

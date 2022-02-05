@@ -124,22 +124,23 @@ const engine = Matter.Engine.create()
         return[el[0]+(suma*space),el[1]]
       }
     })
-
-    let elements = getELements(
-      [imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs],
-      positions,
-      widthElement-margin,
-      size,
-      ["NodeJS", "JavaScript", "CSS", "HTML", "React", "TypeScript", "Material ui", "NextJS", "SCSS", "StyledComp"],
-      engine
-    )
-      
-    const wallOptions = {
-      isStatic: true,
-      render: {
-        visible: false,
+    
+      let elements = getELements(
+        [imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs,imgJs,imgJs, imgJs],
+        positions,
+        widthElement-margin,
+        size,
+        ["NodeJS", "JavaScript", "CSS", "HTML", "React", "TypeScript", "Material ui", "NextJS", "SCSS", "StyledComp"],
+        engine
+      )
+        
+      const wallOptions = {
+        isStatic: true,
+        render: {
+          visible: false,
+        }
       }
-    }
+
   
     const ground = Bodies.rectangle(w / 2, h + 50, w + 100, 100, wallOptions)
     const ceiling = Bodies.rectangle(w / 2, -50, w + 100, 100, wallOptions)

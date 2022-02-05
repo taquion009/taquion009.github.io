@@ -87,6 +87,9 @@ header .container-header .header ul li:hover a{
 }
 
 @media screen and (max-width: 980px){
+  header .container-header{
+    padding: 1em;
+  }
   header .container-header .header ul{
     display: none;
   }

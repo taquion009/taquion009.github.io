@@ -8,10 +8,12 @@ import animationAbout from './module/animationAbout';
 import animationWork from './module/animationWork';
 import animationContact from './module/animationContact';
 import './main.scss';
+import './styles/animate.scss';
 import './styles/home.scss';
 import './styles/about.scss';
 import './styles/skill.scss';
 import './styles/header.scss';
+
 window.addEventListener('DOMContentLoaded', function(){
     meshNeon();
     screenFull()
