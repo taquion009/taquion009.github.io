@@ -1,3 +1,5 @@
+import "../styles/screenFull.scss";
+
 const screenFull = () => {
     const TIME_OUT = 500 
     const body = document.querySelector('body')
@@ -7,7 +9,8 @@ const screenFull = () => {
     let qty = 1,
     main: HTMLElement = null,
     next: HTMLElement = null,
-    start: Boolean = false
+    start: Boolean = false,
+    mobile = window.innerWidth < 980
 
     const changeActiveStick = (qty2:number) => {
         const active = document.querySelector<HTMLElement>('.section-stick .stick.active')
@@ -88,6 +91,7 @@ const screenFull = () => {
     })
 
     window.addEventListener('scroll', () => {
+        if(mobile)return;
         if (startFlag && start) {
             const scrollDown = window.scrollY >= initialScroll
             const scrollLimit = qty >= 1 && qty <= sectionsQty
@@ -123,6 +127,24 @@ const screenFull = () => {
     }
         window.scroll(0, window.screen.height)
     })
+
+    window.addEventListener('resize', () => {
+        mobile = window.innerWidth < 980
+        if(mobile){
+            for(let i = 1; i <= sectionsQty;i++){
+                document.querySelector<HTMLElement>(`section.s${i}`).style.transform = 'translateY(0)'
+            }
+        }else{
+            document.querySelector<HTMLElement>(`section.s1`).style.transform = 'translateY(0)'
+            for(let i = 2; i <= sectionsQty;i++){
+                document.querySelector<HTMLElement>(`section.s${i}`).style.transform = 'translateY(100vh)'
+            }
+            qty = 1,
+            main = null
+            next = null
+            start = false
+        }
+    });
 }
 
 export default screenFull

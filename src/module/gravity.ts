@@ -89,6 +89,7 @@ const engine = Matter.Engine.create()
     let margin = 12
     let size = ((w-(borderW*2)+widthElement) + (h - (borderH)))/ (cantidad * widthElement)
     if(size > 1)size=1
+    if(w < 980)borderTop = 32
     widthElement *= size
     let y = widthElement+borderTop+borderH+(margin*2)*size
     for(let i = 0; i < cantidad; i++){
@@ -202,28 +203,31 @@ const engine = Matter.Engine.create()
     mouseControl.mouse.element.addEventListener('touchstart', (event) => {
       if (!mouseControl.body) {
         touchStart = event;
+      }else if(!mouseControl.body.isStatic){
+        touchStart = event;
       }
     });
 
+    let space: any = null
+    
     mouseControl.mouse.element.addEventListener('touchend', (event) => {
-      if (!mouseControl.body && touchStart) {
+      if ((!mouseControl.body || !mouseControl.body.isStatic) && touchStart) {
         event.preventDefault();
         touchStart = null;
+        space = null
       }
     });
 
+
+    
     mouseControl.mouse.element.addEventListener('touchmove', (event) => {
-      if (!mouseControl.body && touchStart) {
-        event.preventDefault();
-        const startY = touchStart.changedTouches[0].clientY;
-        const endY = event.changedTouches[0].clientY;
-        const delta = startY - endY
-        
-        if (delta > 80) {
-          window.scrollBy(0, delta);
-        }else if(delta < -80){
-          window.scrollBy(0, delta);
-        }
+      if ((!mouseControl.body || mouseControl.body.isStatic) && touchStart) {
+          event.preventDefault();
+          let start = touchStart.touches[0].clientY
+          let end = event.touches[0].clientY
+          let delta = start - end
+          window.scrollTo(0, window.scrollY + delta);
+          touchStart = event
       }
     });
 

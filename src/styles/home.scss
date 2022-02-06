@@ -3,6 +3,8 @@
     transform: translateY(0px);
     background-color: var(--background-primary);
     overflow: hidden;
+    z-index: 1;
+    visibility: visible;
   }
   
   .section-container .s1 .s1-container{
@@ -169,6 +171,9 @@
   }
   
   @media screen and (max-width: 980px){
+    .section-container .s1{
+      position: relative;
+    }
     .section-container .s1 .s1-container{
       padding: 1em;
       text-align: center;
