@@ -1,0 +1,63 @@
+/* -------------------------------- SECCION FOUR WORK ---------------------------------- */
+.section-container .s4 {
+  background-color: var(--background-primary);
+  overflow: hidden;
+}
+
+.section-container .s4 .s4-container {
+  padding: 2em;
+  width: 100%;
+  height: 100%;
+  max-width: var(--max-width);
+  margin: auto;
+  z-index: -2;
+  min-height: 100vh;
+}
+
+.section-container .s4 .s4-container .s4-content {
+  margin-top: 3em;
+  max-height: 100%;
+}
+
+.section-container .s4 .s4-container .s4-content h3 {
+  font-size: 1.75em;
+  margin-bottom: 0.5em;
+  position: relative;
+  z-index: 6;
+}
+
+.section-container .s4 .s4-container .s4-content p {
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.section-container .s4 .circle {
+  &::before {
+    content: "\2B22";
+    font-size: 400px;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 100%;
+    left: 15%;
+    -webkit-text-stroke-width: 40px;
+    -webkit-text-fill-color: #0dac5400;
+    -webkit-text-stroke-color: var(--background-secondary);
+    transform: translate(-50%, -50%) rotate(90deg);
+    z-index: -7;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .section-container .s4 .s4-container .s4-content {
+    margin-top: 1em;
+  }
+
+  .section-container .s4 .s4-container .s4-content h3 {
+    font-size: 1.4em;
+  }
+
+  .section-container .s4 .s4-container .s4-content p {
+    font-size: 1em;
+  }
+}

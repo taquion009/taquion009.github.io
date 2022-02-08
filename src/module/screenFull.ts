@@ -10,35 +10,34 @@ const screenFull = () => {
     main: HTMLElement = null,
     next: HTMLElement = null,
     start: Boolean = false,
-    mobile = window.innerWidth < 980
+    mobile = window.innerWidth < 980,
+    stickCurrent: null|HTMLElement = document.querySelector(`.stick[data-to="${qty}"]`) || null,
+    lineActive: HTMLElement = document.querySelector(`.line-active`)
 
     const changeActiveStick = (qty2:number) => {
-        const active = document.querySelector<HTMLElement>('.section-stick .stick.active')
-        if(!active) return
-        active.style.top = (62 + 30) * (qty2 - 1) + 'px'
-    }
+        if(qty2 == Number(stickCurrent.dataset.to)) return
+        let stick: HTMLElement = document.querySelector(`.stick[data-to="${qty2}"]`)
+        if(!stick) return
+        if(stick) {
+            stick.classList.add('active')
+        }
+        stickCurrent.classList.remove('active')
+        stickCurrent = stick
 
-    const addStick = () => {
-        const sectionStick = document.querySelector<HTMLElement>('.section-stick')
-        if(!sectionStick) return
-        let i = 1
-        Array(sectionsQty)
-        .fill(0)
-        .forEach(() => {
-            sectionStick.innerHTML = sectionStick.innerHTML + `<div data-to=${i} class="stick"></div>`
-            i++
-        })
+        lineActive.style.transform = `translateX(${stick.offsetLeft + ((stick.offsetWidth / 2)/2)}px)`
+        lineActive.style.transition = 'transform 0.5s'
+        lineActive.style.width = `${stick.offsetWidth/2}px`
     }
-
-    addStick()
-    changeActiveStick(qty)
 
     document.querySelectorAll('.stick').forEach(stick => {
         stick.addEventListener('click', (e) => {
-            if (!(e.target instanceof HTMLButtonElement)) {
+            if (!(e.target instanceof HTMLElement)) {
                 return;
-              }
-            const to = Number(e.target.dataset.to)
+            }
+            if(!mobile) {
+            const to = Number(e.target.parentElement.dataset.to)
+
+            changeActiveStick(to)
 
             if (startFlag) {
                 if(to == qty)return;
@@ -53,7 +52,6 @@ const screenFull = () => {
                     document.querySelector<HTMLElement>(`section.s${i}`).style.display = "none"
                     document.querySelector<HTMLElement>(`section.s${i}`).style.transform = 'translateY(-100vh)'
                 }
-
                 if(to == 1){
                     main = document.querySelector(`section.s${to}`)
                     next = document.querySelector(`section.s${to}`)
@@ -84,8 +82,15 @@ const screenFull = () => {
                 }, TIME_OUT)
 
                 qty = Number(to)
-                changeActiveStick(qty)
                 startFlag = false
+            }
+            }else{
+                const to = Number(e.target.parentElement.dataset.to)
+                
+                window.scrollTo({
+                    top: document.querySelector<HTMLElement>(`section.s${to}`).offsetTop,
+                    behavior: 'smooth'
+                })
             }
         })  
     })
@@ -143,6 +148,7 @@ const screenFull = () => {
             main = null
             next = null
             start = false
+            changeActiveStick(qty)
         }
     });
 }

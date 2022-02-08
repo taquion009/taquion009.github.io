@@ -24,6 +24,10 @@ header .container-header{
   padding: 2em;
 }
 
+header .container-header .header{
+  position: relative;
+}
+
 header .container-header .header ul{
   list-style: none;
   display: flex;
@@ -36,12 +40,15 @@ header .container-header .header ul{
 }
 
 header .container-header .header ul li a{
-  padding: 1em;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  transition: background 0.3s ease-in-out;
+  position: relative;
+  opacity: 0.8;
 }
 
-header .container-header .header ul li a:hover{
-  background-color: var(--color-primary);
-  border-radius: 5px;
+header .container-header .header ul li.active a{
+  opacity: 1;
 }
 
 header .container-header .header ul li a{
@@ -51,6 +58,16 @@ header .container-header .header ul li a{
 
 header .container-header .header .menu{
   display:none;
+}
+
+header .container-header .header .line-active{
+  position: absolute;
+  height: 2px;
+  background-color: var(--color-primary);
+  top: 100%;
+  left: 0%;
+  transform: translateX(20.5px);
+  width: 41px;
 }
 
 header .container-header .header .menu > *{
@@ -84,7 +101,9 @@ header .container-header .header ul li a{
 
 header .container-header .header ul li:hover a{
   color: var(--color-text-primary);
+  opacity: 1;
 }
+
 
 @media screen and (max-width: 980px){
   header .container-header{
@@ -104,5 +123,9 @@ header .container-header .header ul li:hover a{
 
   header .container-header .header .menu > *.active{
     display:flex;
+  }
+
+  header .container-header .header .line-active{
+    display:none;
   }
 }
