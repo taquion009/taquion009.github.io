@@ -8,9 +8,9 @@ const carousel = () => {
   let buttomRight = document.querySelector<HTMLElement>(
     ".carousel button.right"
   );
-  const CARDS = 10;
+  const CARDS = cards.length;
   const MAX_VISIBILITY = 3;
-  let active = 1;
+  let active = Math.round(CARDS / 2);
 
   const updateCarousel = () => {
     cards.forEach((el, i) => {

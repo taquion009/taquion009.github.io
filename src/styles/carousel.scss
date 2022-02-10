@@ -18,7 +18,6 @@
     scaleY(calc(1 + var(--abs-offset) * -0.4))
     translateZ(calc(var(--abs-offset) * -30rem))
     translateX(calc(var(--offset) / var(--abs-offset) * -5rem));
-  filter: blur(calc(var(--abs-offset) * 0.5rem));
   transition: all 0.3s ease-out;
 }
 

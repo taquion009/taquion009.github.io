@@ -14,6 +14,7 @@ import "./styles/home.scss";
 import "./styles/about.scss";
 import "./styles/skill.scss";
 import "./styles/work.scss";
+import "./styles/contact.scss";
 import "./styles/header.scss";
 
 window.addEventListener("DOMContentLoaded", function () {

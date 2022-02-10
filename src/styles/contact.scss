@@ -1,0 +1,290 @@
+/* -------------------------------- SECCION FOUR WORK ---------------------------------- */
+.section-container .s5 {
+  background-color: var(--background-primary);
+  overflow: hidden;
+}
+
+.section-container .s5 .s5-container {
+  padding: 2em;
+  width: 100%;
+  height: 100%;
+  max-width: var(--max-width);
+  margin: auto;
+  z-index: -2;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: space-evenly;
+  align-items: flex-start;
+}
+
+.section-container .s5 .s5-container .s5-content {
+  margin-top: 3em;
+  max-height: 100%;
+  width: 100%;
+}
+
+.section-container .s5 .s5-container .s5-content h3 {
+  font-size: 1.75em;
+  position: relative;
+  z-index: 6;
+  margin: auto;
+  display: inline-block;
+  margin-bottom: 0.5em;
+}
+
+.section-container .s5 .s5-container .s5-content p {
+  font-size: 1.2em;
+  font-weight: 400;
+}
+
+.section-container .s5 .s5-container .container-form {
+  width: 50%;
+  height: calc(100% - 6em);
+  padding: 1em;
+  max-width: 600px;
+}
+
+.section-container .s5 .s5-container .container-form form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.section-container .s5 .s5-container .container-form form .container-inputs {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+
+  & li {
+    list-style: none;
+    width: 100%;
+    margin-bottom: 0.5em;
+    overflow: hidden;
+    position: relative;
+  }
+
+  & li.width-middle {
+    width: calc(50% - 0.25em);
+  }
+
+  & li input,
+  & li textarea {
+    padding: 1em 2em;
+    border: none;
+    position: relative;
+    background: var(--background-secondary);
+    width: 100%;
+    color: var(--color-text-primary);
+    font-size: 1em;
+    font-family: "Poppins", sans-serif;
+  }
+
+  & input::placeholder,
+  & textarea::placeholder {
+    color: var(--color-text-primary);
+  }
+
+  & .input-message {
+    resize: none;
+  }
+
+  & > li label::before {
+    content: "";
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-primary);
+    transition: all 0.3s ease-in-out;
+    transform: translate(-110%, 0);
+    z-index: 1;
+  }
+
+  & > li input:focus ~ label::before,
+  & > li textarea:focus ~ label::before {
+    transform: translate(0, 0);
+  }
+
+  & input:focus,
+  & textarea:focus {
+    outline: none;
+  }
+
+  & input:focus-visible,
+  & textarea:focus-visible {
+    outline: none;
+  }
+
+  & input:-webkit-autofill,
+  & textarea:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px var(--background-secondary) inset;
+    -webkit-text-fill-color: var(--color-text-primary);
+    box-shadow: 0 0 0px 1000px var(--background-secondary) inset;
+  }
+}
+
+.section-container .s5 .s5-container form button {
+  background: #181818;
+  padding: 1em 2em;
+  position: relative;
+  margin: 0 auto;
+  outline: none;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1em;
+  max-width: 100%;
+  width: auto;
+  letter-spacing: 4px;
+  -webkit-animation: slide-in-bottom 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)
+    0.5s both;
+  animation: slide-in-bottom 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+  overflow: hidden;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 100%;
+    background: var(--color-primary);
+    background: linear-gradient(
+      117deg,
+      var(--color-primary) 90%,
+      rgba(0, 0, 0, 0) 90%
+    );
+    -webkit-transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: -1;
+    transform: translate(-100%, 0);
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-primary);
+    z-index: -2;
+    opacity: 0;
+  }
+
+  &:hover:after {
+    transform: translate(0, 0);
+  }
+
+  &:hover:before {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: #181818;
+    background-color: transparent;
+  }
+}
+
+.section-container .s5 .s5-container .container-contacts {
+  width: 30%;
+  height: calc(100% - 6em);
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  align-items: center;
+  gap: 3em;
+  justify-content: center;
+}
+
+.section-container .s5 .s5-container .container-contacts .contact-item {
+  min-height: 2em;
+}
+
+.section-container .s5 .s5-container .container-contacts .contact-item svg {
+  width: 1em;
+  fill: var(--color-text-primary);
+}
+
+.section-container .s5 .s5-container .container-contacts .contact-item-group {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+}
+
+.section-container
+  .s5
+  .s5-container
+  .container-contacts
+  .contact-item-group
+  svg {
+  width: 2em;
+  fill: var(--color-text-primary);
+}
+
+.section-container .s5 .circle {
+  &::before {
+    content: "\2B22";
+    font-size: 400px;
+    width: 400px;
+    height: 400px;
+    position: absolute;
+    top: 50%;
+    left: 110%;
+    -webkit-text-stroke-width: 40px;
+    -webkit-text-fill-color: #0dac5400;
+    -webkit-text-stroke-color: var(--background-secondary);
+    transform: translate(-50%, -50%) rotate(90deg);
+    z-index: -7;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .section-container .s5 .s5-container {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .section-container .s5 .s5-container .s5-content {
+    margin-top: 1em;
+  }
+
+  .section-container .s5 .s5-container .s5-content h3 {
+    font-size: 1.4em;
+  }
+
+  .section-container .s5 .s5-container .s5-content p {
+    font-size: 1em;
+  }
+
+  .section-container .s5 .s5-container .container-form {
+    width: 100%;
+    padding: 0;
+  }
+
+  .section-container .s5 .s5-container .container-contacts {
+    width: 100%;
+    padding: 0;
+    margin-top: 2em;
+  }
+}

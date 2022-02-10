@@ -1,5 +1,5 @@
 /* -------------------------------- HEADER ---------------------------------- */
-header{
+header {
   width: 100%;
   position: fixed;
   top: 0;
@@ -10,7 +10,7 @@ header{
   justify-content: space-around;
 }
 
-header .container-header{
+header .container-header {
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -24,11 +24,11 @@ header .container-header{
   padding: 2em;
 }
 
-header .container-header .header{
+header .container-header .header {
   position: relative;
 }
 
-header .container-header .header ul{
+header .container-header .header ul {
   list-style: none;
   display: flex;
   flex-direction: row;
@@ -39,7 +39,7 @@ header .container-header .header ul{
   gap: 1em;
 }
 
-header .container-header .header ul li a{
+header .container-header .header ul li a {
   border-radius: 5px;
   padding: 0.5em 1em;
   transition: background 0.3s ease-in-out;
@@ -47,20 +47,25 @@ header .container-header .header ul li a{
   opacity: 0.8;
 }
 
-header .container-header .header ul li.active a{
+header .container-header .header ul li.active a {
   opacity: 1;
 }
 
-header .container-header .header ul li a{
+header .container-header .header ul li a {
   text-decoration: none;
   color: var(--color-text);
 }
 
-header .container-header .header .menu{
-  display:none;
+header .container-header .header .menu {
+  display: none;
 }
 
-header .container-header .header .line-active{
+header .container-header .header .menu > span > * {
+  fill: var(--color-text-primary);
+  width: 60%;
+}
+
+header .container-header .header .line-active {
   position: absolute;
   height: 2px;
   background-color: var(--color-primary);
@@ -70,7 +75,7 @@ header .container-header .header .line-active{
   width: 41px;
 }
 
-header .container-header .header .menu > *{
+header .container-header .header .menu > * {
   width: 3em;
   height: 3em;
   cursor: pointer;
@@ -81,51 +86,50 @@ header .container-header .header .menu > *{
   color: var(--color-text-primary);
 }
 
-header .container-header .header .menu > * > i{
+header .container-header .header .menu > * > i {
   transform: scale(2) translate(4%, 0%);
 }
 
-header .container-header .header .menu > *:hover{
+header .container-header .header .menu > *:hover {
   background-color: var(--color-primary);
   color: var(--background-primary);
 }
 
-header .container-header .header ul li a{
+header .container-header .header ul li a {
   text-decoration: none;
   color: var(--color-text-primary);
   font-size: 1em;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: .5px;
+  letter-spacing: 0.5px;
 }
 
-header .container-header .header ul li:hover a{
+header .container-header .header ul li:hover a {
   color: var(--color-text-primary);
   opacity: 1;
 }
 
-
-@media screen and (max-width: 980px){
-  header .container-header{
+@media screen and (max-width: 980px) {
+  header .container-header {
     padding: 1em;
   }
-  header .container-header .header ul{
+  header .container-header .header ul {
     display: none;
   }
 
-  header .container-header .header .menu{
-    display:flex;
+  header .container-header .header .menu {
+    display: flex;
   }
 
-  header .container-header .header .menu > *{
-    display:none;
+  header .container-header .header .menu > * {
+    display: none;
   }
 
-  header .container-header .header .menu > *.active{
-    display:flex;
+  header .container-header .header .menu > *.active {
+    display: flex;
   }
 
-  header .container-header .header .line-active{
-    display:none;
+  header .container-header .header .line-active {
+    display: none;
   }
 }
