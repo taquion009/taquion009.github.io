@@ -2,13 +2,13 @@
   --time-animation: 0.5s;
   -ms-overflow-style: none;
   --max-width: 1250px;
-  --color-primary: #08fd97;
+  --color-primary: #00e17e;
   --color-secondary: #fd076d;
   --color-text-primary: #fff;
   --color-text-secondary: rgb(0, 0, 0);
   --color-stick-active: #bef0ff;
-  --background-primary: #181818;
-  --background-secondary: #3a3a3a;
+  --background-primary: #0f0f11;
+  --background-secondary: #252531;
 }
 
 html {
@@ -32,6 +32,10 @@ body {
   font-family: "Poppins", sans-serif;
   font-size: 16px;
   background-color: var(--background-primary);
+}
+
+body.without-scroll {
+  overflow: hidden;
 }
 
 a {

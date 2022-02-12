@@ -1,19 +1,23 @@
 .carousel {
-  position: absolute;
   width: 23rem;
   height: 23rem;
   perspective: 500px;
   transform-style: preserve-3d;
-  top: calc(50% + 2em);
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: auto;
   max-width: calc(100% - 2em);
+  margin-top: 2em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  align-content: center;
 }
 
 .carousel .card-container {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: auto;
   transform: rotateY(calc(var(--offset) * 50deg))
     scaleY(calc(1 + var(--abs-offset) * -0.4))
     translateZ(calc(var(--abs-offset) * -30rem))
@@ -23,7 +27,7 @@
 
 .carousel .card-container .card {
   width: 100%;
-  height: 100%;
+  height: auto;
   padding: 2rem;
   background-color: #fff;
   border-radius: 1rem;
@@ -64,15 +68,19 @@
 }
 
 @media screen and (max-width: 980px) {
+  .carousel {
+    max-width: 100%;
+  }
+
+  .carousel .nav {
+    font-size: 3rem;
+  }
+
   .carousel .nav.left {
-    transform: translateX(-0.25em) translatey(-50%);
+    transform: translateX(-0.5em) translatey(-50%);
   }
 
   .carousel .nav.right {
-    transform: translateX(0.25em) translatey(-50%);
-  }
-
-  .carousel {
-    top: 50%;
+    transform: translateX(0.5em) translatey(-50%);
   }
 }

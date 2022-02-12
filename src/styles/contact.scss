@@ -88,6 +88,7 @@
     width: 100%;
     color: var(--color-text-primary);
     font-size: 1em;
+    font-weight: 700;
     font-family: "Poppins", sans-serif;
   }
 
@@ -137,7 +138,7 @@
 }
 
 .section-container .s5 .s5-container form button {
-  background: #181818;
+  background: var(--background-primary);
   padding: 1em 2em;
   position: relative;
   margin: 0 auto;
@@ -194,7 +195,7 @@
   }
 
   &:hover {
-    color: #181818;
+    color: var(--background-primary);
     background-color: transparent;
   }
 }

@@ -4,7 +4,7 @@ header {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 5;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -58,6 +58,7 @@ header .container-header .header ul li a {
 
 header .container-header .header .menu {
   display: none;
+  z-index: 10;
 }
 
 header .container-header .header .menu > span > * {
@@ -95,6 +96,40 @@ header .container-header .header .menu > *:hover {
   color: var(--background-primary);
 }
 
+.line {
+  fill: none;
+  stroke: var(--color-text-primary);
+  stroke-width: 6;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.line1 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.line2 {
+  stroke-dasharray: 60 60;
+  stroke-width: 6;
+}
+.line3 {
+  stroke-dasharray: 60 207;
+  stroke-width: 6;
+}
+.opened .line1 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
+.opened .line2 {
+  stroke-dasharray: 1 60;
+  stroke-dashoffset: -30;
+  stroke-width: 6;
+}
+.opened .line3 {
+  stroke-dasharray: 90 207;
+  stroke-dashoffset: -134;
+  stroke-width: 6;
+}
 header .container-header .header ul li a {
   text-decoration: none;
   color: var(--color-text-primary);
@@ -109,6 +144,56 @@ header .container-header .header ul li:hover a {
   opacity: 1;
 }
 
+.container-menu {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: var(--background-primary);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.container-menu ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: space-around;
+  justify-content: space-around;
+  align-items: center;
+  color: var(--color-text-primary);
+  padding: 4em 1em 1em 1em;
+  height: 100%;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: auto;
+  list-style: none;
+}
+
+.container-menu ul li {
+  width: 100%;
+}
+
+.container-menu ul li.group-contacts {
+  width: 4em;
+}
+
+.container-menu ul li.group-contacts svg {
+  fill: var(--color-text-primary);
+}
+
+.container-menu ul a {
+  padding: 1em;
+  width: 100%;
+  display: block;
+  text-align: center;
+  font-weight: 900;
+  font-size: 1em;
+}
+
 @media screen and (max-width: 980px) {
   header .container-header {
     padding: 1em;
@@ -121,15 +206,16 @@ header .container-header .header ul li:hover a {
     display: flex;
   }
 
-  header .container-header .header .menu > * {
-    display: none;
-  }
-
   header .container-header .header .menu > *.active {
     display: flex;
   }
 
   header .container-header .header .line-active {
     display: none;
+  }
+
+  .container-menu.active {
+    opacity: 1;
+    visibility: visible;
   }
 }

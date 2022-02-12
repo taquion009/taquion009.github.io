@@ -1,40 +1,54 @@
 import * as Matter from "matter-js";
-
-import imgGithub from "../../public/img/github.png";
-import imgReact from "../../public/img/reactjs.png";
-import imgJs from "../../public/img/js.png";
-import imgcss from "../../public/img/css.png";
-import imgHtml from "../../public/img/html.png";
-import imgNode from "../../public/img/nodejs.png";
-import imgNpm from "../../public/img/npm.png";
-import imgVsc from "../../public/img/vsc.png";
-import imgJson from "../../public/img/json.png";
+import icons from "../../public/img/icons.png";
 
 const { Engine, Render, Bodies, World, MouseConstraint, Events, Runner } =
   Matter;
 
+const ImgIcons: string[] = [];
+
+const names = [
+  "JavaScript",
+  "CSS",
+  "HTML",
+  "React",
+  "GIT",
+  "NextJS",
+  "NodeJS",
+  "Material ui",
+  "TypeScript",
+  "SCSS",
+  "StyledComp",
+];
+
 const engine = Matter.Engine.create();
 
-const createImg = (img: string) => {
-  try {
-    const imgElement = new Image();
-    imgElement.src = img;
-    return true;
-  } catch (err) {
-    return false;
-  }
-};
+const createImg = async (img: string, quantity: number) => {
+  for (let i = 0; i < quantity; i++) {
+    let x = i * 80;
+    try {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 80;
+      canvas.height = 80;
+      const imgElement = new Image();
+      imgElement.src = img;
+      let slice = new Image();
 
-const loaderImgs = () => {
-  createImg(imgGithub);
-  createImg(imgReact);
-  createImg(imgJs);
-  createImg(imgcss);
-  createImg(imgHtml);
-  createImg(imgNode);
-  createImg(imgNpm);
-  createImg(imgVsc);
-  createImg(imgJson);
+      const waitForImageToLoad = (imageElement: HTMLImageElement) => {
+        return new Promise((resolve) => {
+          imageElement.onload = resolve;
+        });
+      };
+      await waitForImageToLoad(imgElement);
+      ctx.drawImage(imgElement, x, 0, 80, 80, 0, 0, 80, 80);
+      slice.src = canvas.toDataURL();
+
+      await waitForImageToLoad(slice);
+      ImgIcons.push(slice.src);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 };
 
 const getELements = (
@@ -46,14 +60,14 @@ const getELements = (
   engine: Matter.Engine
 ): Matter.Body[] => {
   let elements = [];
-
-  for (let i = 0; i < img.length; i++) {
+  for (let i = 0; i < names.length; i++) {
     let element = Bodies.rectangle(
       positions[i][0],
       positions[i][1],
-      widthElement,
-      widthElement,
+      widthElement + size,
+      widthElement + size,
       {
+        chamfer: { radius: [5, 5, 5, 5] },
         isStatic: true,
         render: {
           strokeStyle: "#ffffff",
@@ -84,7 +98,6 @@ const getELements = (
 };
 
 const createElements = (engine: Matter.Engine, w: number, h: number) => {
-  loaderImgs();
   let positions: number[][] = [];
 
   let row = 0;
@@ -93,7 +106,7 @@ const createElements = (engine: Matter.Engine, w: number, h: number) => {
   let space = 0;
   let borderW = 80;
   let borderTop = 64;
-  let widthElement = 75;
+  let widthElement = 92.5;
   let margin = 12;
   let size =
     (w - borderW * 2 + widthElement + (h - borderH)) /
@@ -138,41 +151,11 @@ const createElements = (engine: Matter.Engine, w: number, h: number) => {
   });
 
   let elements = getELements(
-    [
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-      imgJs,
-    ],
+    ImgIcons,
     positions,
     widthElement - margin,
     size,
-    [
-      "NodeJS",
-      "JavaScript",
-      "CSS",
-      "HTML",
-      "React",
-      "TypeScript",
-      "Material ui",
-      "NextJS",
-      "SCSS",
-      "StyledComp",
-    ],
+    names,
     engine
   );
 
@@ -225,7 +208,15 @@ function gravity(eventResize?: any) {
 
   World.add(engine.world, mouseControl);
 
-  let elements = createElements(engine, w, h);
+  let elements: any = [];
+
+  if (ImgIcons.length == 0) {
+    createImg(icons, names.length).then((img) => {
+      elements = createElements(engine, w, h);
+    });
+  } else {
+    elements = createElements(engine, w, h);
+  }
 
   mouseControl.mouse.element.removeEventListener(
     "mousewheel",
@@ -288,7 +279,7 @@ function gravity(eventResize?: any) {
     if (elements.elements.length > 0 && mouseControl.body?.agregar) {
       World.remove(engine.world, mouseControl.body);
       $click.style.display = "none";
-      elements.elements.forEach((element) => {
+      elements.elements.forEach((element: any) => {
         Matter.Body.set(element, "isStatic", false);
       });
     }

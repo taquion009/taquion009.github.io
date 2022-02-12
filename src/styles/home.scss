@@ -23,7 +23,7 @@
 }
 
 .section-container .s1 .s1-container button {
-  background: #181818;
+  background: var(--background-primary);
   padding: 1em 2em;
   position: relative;
   margin: 2em 0 0 1em;
@@ -80,7 +80,7 @@
   }
 
   &:hover {
-    color: #181818;
+    color: var(--background-primary);
     background-color: transparent;
   }
 }
