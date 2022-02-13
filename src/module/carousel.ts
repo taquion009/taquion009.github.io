@@ -76,9 +76,9 @@ const carousel = () => {
     if (start) {
       let offset = e.touches[0].clientX - start;
 
-      if (offset < -10) {
+      if (offset < -5) {
         suma -= 0.09;
-      } else if (offset > 10) {
+      } else if (offset > 5) {
         suma += 0.09;
       }
 
@@ -92,9 +92,9 @@ const carousel = () => {
     if (start) {
       let offset = e.clientX - start;
 
-      if (offset < -10) {
+      if (offset < -5) {
         suma -= 0.09;
-      } else if (offset > 10) {
+      } else if (offset > 5) {
         suma += 0.09;
       }
 

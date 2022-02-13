@@ -60,14 +60,15 @@ const getELements = (
   engine: Matter.Engine
 ): Matter.Body[] => {
   let elements = [];
+  console.log(size * widthElement, size, widthElement);
   for (let i = 0; i < names.length; i++) {
     let element = Bodies.rectangle(
       positions[i][0],
       positions[i][1],
-      widthElement + size,
-      widthElement + size,
+      widthElement * size,
+      widthElement * size,
       {
-        chamfer: { radius: [5, 5, 5, 5] },
+        chamfer: { radius: [5 * size, 5 * size, 5 * size, 5 * size] },
         isStatic: true,
         render: {
           strokeStyle: "#ffffff",
@@ -85,9 +86,13 @@ const getELements = (
     let $spanText = document.createElement("span");
     $spanText.innerHTML = content[i] || "Otro";
     $spanText.style.position = "absolute";
-    $spanText.style.top = `${positions[i][1] + widthElement / 2 + 10 * size}px`;
-    $spanText.style.left = `${positions[i][0] - widthElement / 2 - 25}px`;
-    $spanText.style.width = `${50 + widthElement}px`;
+    $spanText.style.top = `${
+      positions[i][1] + (widthElement * size) / 2 + 10 * size
+    }px`;
+    $spanText.style.left = `${
+      positions[i][0] - (widthElement * size) / 2 - 25
+    }px`;
+    $spanText.style.width = `${50 + widthElement * size}px`;
     $spanText.style.height = `30px`;
     $spanText.style.fontSize = `${16 * size}px`;
     document
@@ -153,7 +158,7 @@ const createElements = (engine: Matter.Engine, w: number, h: number) => {
   let elements = getELements(
     ImgIcons,
     positions,
-    widthElement - margin,
+    92.5 - margin,
     size,
     names,
     engine
@@ -257,27 +262,14 @@ function gravity(eventResize?: any) {
     }
   });
 
-  const click = Bodies.circle(w / 2, h - h / 5, 40, {
-    isStatic: true,
-    isSensor: true,
-    render: {
-      strokeStyle: "#ffffff",
-      opacity: 0,
-    },
-  });
-
   const $click = document.querySelector<HTMLElement>(".click");
   $click.style.position = "absolute";
   $click.style.left = w / 2 + "px";
   $click.style.top = h - h / 5 + "px";
   $click.style.display = "flex";
-  click.agregar = true;
 
-  World.add(engine.world, click);
-
-  Events.on(mouseControl, "mousedown", (event) => {
-    if (elements.elements.length > 0 && mouseControl.body?.agregar) {
-      World.remove(engine.world, mouseControl.body);
+  $click.addEventListener("click", (event) => {
+    if (elements.elements.length > 0) {
       $click.style.display = "none";
       elements.elements.forEach((element: any) => {
         Matter.Body.set(element, "isStatic", false);
