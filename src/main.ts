@@ -4,6 +4,7 @@ import eclipse from "./module/eclipse";
 import meshNeon from "./module/meshNeon";
 import carousel from "./module/carousel";
 import header from "./module/header";
+import loadImage from "./module/loadImage";
 import animationSkill from "./module/animationSkill";
 import animationHome from "./module/animationHome";
 import animationAbout from "./module/animationAbout";
@@ -22,7 +23,9 @@ window.addEventListener("DOMContentLoaded", function () {
   meshNeon();
   screenFull();
   eclipse();
-  gravity();
+  loadImage(11).then((images) => {
+    gravity(null, images);
+  });
   carousel();
   header();
   animationSkill();

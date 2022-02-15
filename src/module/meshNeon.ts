@@ -4,189 +4,258 @@ import SimplexNoise from "simplex-noise";
 const meshNeon = () => {
   const simplex = new SimplexNoise("seed");
   let canvas = document.querySelector<HTMLCanvasElement>(".meshNeon");
+  let container = document.querySelector<HTMLCanvasElement>(
+    ".container-meshNeon"
+  );
   const ctx = canvas.getContext("2d");
   let width = (canvas.width = window.innerWidth);
   let height = (canvas.height = window.innerHeight);
-  let hexagons: Hexagon[] = [];
-  let sizeH = Math.max(height, width) / 40;
-  let gap = 5;
+  let sizeH = Math.max(height, width) / 30;
   let speed = 0.001;
   let t = Math.round(Math.random() * 1000);
-  let maxCountW = Math.round(width / (sizeH + gap));
-  let maxCountH = Math.round(height / (sizeH + gap));
-  let widthH = sizeH + (sizeH - gap) * Math.cos(Math.PI / 6) + 1;
-  let heightH = sizeH + (sizeH - gap) * Math.sin(Math.PI / 6) + 1;
   let color = "rgba(1, 220, 128,";
 
-  if (width < 980) {
-    sizeH = Math.max(height, width) / 30;
-  }
+  let heightBefore = window.innerHeight;
+  let widthBefore = window.innerWidth;
+  let barNab = container.clientHeight - window.innerHeight;
 
-  class Hexagon {
+  class HEXAGON {
     x: number;
     y: number;
-    color: string;
-    drawM: boolean = false;
+    renderer: any;
+    select: boolean = false;
     alpha: number = 1;
-    middleX: number;
-    middleY: number;
-    constructor(x: number, y: number, color: string) {
+
+    constructor(renderer: any, x: number, y: number) {
+      this.renderer = renderer;
       this.x = x;
       this.y = y;
-      this.color = color;
-      this.middleX =
-        this.x -
-        (sizeH - gap) -
-        (sizeH - gap) * Math.sin(Math.PI / 6) +
-        widthH / 2;
-      this.middleY = this.y - (sizeH - gap) + heightH / 2;
-    }
-    draw() {
-      let wP = sizeH - gap;
-      let p1x = this.x - wP;
-      let p1y = this.y - wP;
-
-      let p2x = p1x + wP;
-      let p2y = p1y + 0;
-
-      let p3x = p2x + wP * Math.sin(Math.PI / 6);
-      let p3y = p2y + wP * Math.cos(Math.PI / 6);
-
-      let p4x = p3x - wP * Math.sin(Math.PI / 6);
-      let p4y = p3y + wP * Math.cos(Math.PI / 6);
-
-      let p5x = p4x - wP;
-      let p5y = p4y + 0;
-
-      let p6x = p5x - wP * Math.sin(Math.PI / 6);
-      let p6y = p5y - wP * Math.cos(Math.PI / 6);
-
-      let p7x = p6x + wP * Math.sin(Math.PI / 6);
-      let p7y = p6y - wP * Math.cos(Math.PI / 6);
-      ctx.beginPath();
-      ctx.fillStyle = this.color;
-      ctx.moveTo(p1x, p1y);
-      ctx.lineTo(p2x, p2y);
-      ctx.lineTo(p3x, p3y);
-      ctx.lineTo(p4x, p4y);
-      ctx.lineTo(p5x, p5y);
-      ctx.lineTo(p6x, p6y);
-      ctx.lineTo(p7x, p7y);
-      ctx.fill();
-      ctx.lineWidth = 1;
-      ctx.stroke();
-      ctx.strokeStyle = "#000";
-      ctx.closePath();
     }
 
-    update(color: string) {
-      if (!this.drawM) {
-        this.color = color;
-        this.draw();
+    render(context: any) {
+      context.save();
+      context.translate(this.x, this.y);
+      context.beginPath();
+      for (var i = 0, vertices = this.renderer.vertices; i < 6; i++) {
+        context[i == 0 ? "moveTo" : "lineTo"](vertices[i].x, vertices[i].y);
       }
+      context.closePath();
+      context.fillStyle = color + "0)";
+      context.fill();
+      context.restore();
     }
 
-    updateDraw() {
-      this.color = `${color}${this.alpha})`;
+    update(context: any, opacity: number) {
+      if (this.select) {
+        return this.drawSelect(context);
+      }
+      context.save();
+      context.translate(this.x, this.y);
+      context.beginPath();
+
+      for (var i = 0, vertices = this.renderer.vertices; i < 6; i++) {
+        context[i == 0 ? "moveTo" : "lineTo"](vertices[i].x, vertices[i].y);
+      }
+      context.fillStyle = color + (opacity - 0.2) + ")";
+      context.closePath();
+      context.fill();
+      context.strokeStyle = color + (opacity + 0.2) + ")";
+      context.stroke();
+      context.restore();
+    }
+
+    drawSelect(context: any) {
+      context.save();
+      context.translate(this.x, this.y);
+      context.beginPath();
+
+      for (var i = 0, vertices = this.renderer.vertices; i < 6; i++) {
+        context[i == 0 ? "moveTo" : "lineTo"](vertices[i].x, vertices[i].y);
+      }
+      context.fillStyle = color + (this.alpha - 0.25) + ")";
+      context.closePath();
+      context.fill();
+      context.strokeStyle = color + (this.alpha + 0.25) + ")";
+      context.stroke();
+      context.restore();
+
       this.alpha -= 0.01;
       if (this.alpha <= 0) {
-        this.drawM = false;
         this.alpha = 1;
+        this.select = false;
       }
-      this.draw();
     }
   }
 
-  function draw() {
-    ctx.clearRect(0, 0, width, height);
-    hexagons.forEach((hex) => {
-      if (!hex.drawM) {
-        hex.draw();
-      } else {
-        hex.updateDraw();
+  class RenderHexagon {
+    RESIZE_INTERVAL: number = 30;
+    RADIUS: number = sizeH;
+    RATE: number = 0.98;
+    hexagons: any[] = [];
+    width: number = window.innerWidth;
+    height: number = window.innerHeight;
+    radius: number;
+    vertices: any[] = [];
+    hexWidth: number = 0;
+    hexHeight: number = 0;
+    context: any = ctx;
+    tmpWidth: number = 0;
+    tmpHeight: number = 0;
+    stop: boolean = false;
+
+    init() {
+      this.setup();
+      this.events();
+      this.render();
+    }
+
+    setup() {
+      this.createHexagons();
+    }
+
+    createHexagons() {
+      this.radius = this.RADIUS * this.RATE;
+      this.vertices = [];
+
+      for (var i = 0; i < 6; i++) {
+        this.vertices.push({
+          x: this.radius * Math.sin((Math.PI / 3) * i),
+          y: -this.radius * Math.cos((Math.PI / 3) * i),
+        });
+      }
+
+      this.vertices.push(this.vertices[0]);
+      this.hexWidth = this.RADIUS * Math.cos(Math.PI / 6) * 2;
+      this.hexHeight = this.RADIUS * (2 - Math.sin(Math.PI / 6));
+
+      var countX = Math.ceil(this.width / this.hexWidth),
+        countY = Math.ceil(this.height / this.hexHeight),
+        offsetX = -(countX * this.hexWidth - this.width) / 2,
+        offsetY = -(countY * this.hexHeight - this.height) / 2;
+
+      countX++;
+
+      for (var y = 0; y < countY; y++) {
+        for (var x = 0; x < countX; x++) {
+          this.hexagons.push(
+            new HEXAGON(
+              this,
+              offsetX +
+                (x + 0.5) * this.hexWidth -
+                (y % 2 == 1 ? 0 : this.hexWidth / 2),
+              offsetY + (y + 0.5) * this.hexHeight
+            )
+          );
+        }
+      }
+    }
+
+    watchWindowSize() {
+      this.RADIUS =
+        Math.max(container.clientHeight, container.clientWidth) / 30;
+      this.hexagons = [];
+      this.width = container.clientWidth;
+      this.height = container.clientHeight;
+      this.radius = 0;
+      this.vertices = [];
+      this.hexWidth = 0;
+      this.hexHeight = 0;
+      this.context = ctx;
+      this.tmpWidth = 0;
+      this.tmpHeight = 0;
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      this.setup();
+      this.render();
+    }
+
+    events() {
+      document
+        .querySelector(".s1")
+        .addEventListener("mousemove", (e: MouseEvent) => {
+          let x = e.clientX;
+          let y = e.clientY;
+          let select = this.hexagons.find((hexagon) => {
+            return (
+              x > hexagon.x - this.hexWidth / 2 &&
+              x < hexagon.x + this.hexWidth / 2 &&
+              y > hexagon.y - this.hexHeight / 2 &&
+              y < hexagon.y + this.hexHeight / 2
+            );
+          });
+
+          if (select) {
+            select.select = true;
+            select.alpha = 1;
+          }
+        });
+    }
+
+    render() {
+      this.context.clearRect(0, 0, this.width, this.height);
+      for (var i = 0, count = this.hexagons.length; i < count; i++) {
+        this.hexagons[i].render(this.context);
+      }
+
+      this.loop();
+    }
+
+    loop() {
+      if (!this.stop) {
+        let i = 0;
+        this.context.clearRect(0, 0, this.width, this.height);
+        for (let x = 0; x < this.hexagons.length; x++) {
+          for (let y = 0; y < this.hexagons.length; y++) {
+            if (this.hexagons[i]) {
+              this.hexagons[i].update(
+                this.context,
+                simplex.noise2D(x / 6 + t, y / 6 + t)
+              );
+            }
+            i++;
+          }
+        }
+        t += speed;
+      }
+      requestAnimationFrame(() => {
+        this.loop();
+      });
+    }
+  }
+
+  const app = new RenderHexagon();
+  app.init();
+
+  let options: any = {
+    root: null,
+    rootMargin: "0px",
+    threshold: [0.1, 0],
+  };
+
+  new IntersectionObserver((entries, observer) => {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        if (entry.intersectionRatio >= 0.1) {
+          app.stop = false;
+        } else {
+          app.stop = true;
+        }
       }
     });
-  }
-
-  function init() {
-    for (let x = 0; x < maxCountW; x++) {
-      for (let y = 0; y < maxCountH; y++) {
-        hexagons.push(
-          new Hexagon(
-            x * (sizeH * 2) + gap,
-            y * (sizeH * 2) + gap,
-            `${color}${simplex.noise2D(x / 6 + t, y / 6 + t) + 0.4})`
-          )
-        );
-      }
-    }
-  }
-
-  function loop() {
-    let i = 0;
-    for (let x = 0; x < maxCountW; x++) {
-      for (let y = 0; y < maxCountH; y++) {
-        hexagons[i].update(`${color}${simplex.noise2D(x / 6 + t, y / 6 + t)})`);
-        i++;
-      }
-    }
-    draw();
-    t += speed;
-    requestAnimationFrame(loop);
-  }
+  }, options).observe(document.querySelector(".s1"));
 
   window.addEventListener("resize", () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-    maxCountW = Math.round(width / (sizeH + gap));
-    maxCountH = Math.round(height / (sizeH + gap));
-    sizeH = Math.max(height, width) / 40;
-    gap = 5;
-    hexagons = [];
-    widthH = sizeH + (sizeH - gap) * Math.cos(Math.PI / 6) + 1;
-    heightH = sizeH + (sizeH - gap) * Math.sin(Math.PI / 6) + 1;
-    if (width < 980) {
-      sizeH = Math.max(height, width) / 30;
+    if (
+      heightBefore - window.innerHeight > barNab ||
+      window.innerHeight - heightBefore > barNab ||
+      (heightBefore === window.innerHeight && widthBefore !== window.innerWidth)
+    ) {
+      app.watchWindowSize();
+
+      heightBefore = window.innerHeight;
+      widthBefore = window.innerWidth;
     }
-    init();
   });
-
-  document
-    .querySelector<HTMLElement>(".s1")
-    .addEventListener("mousemove", (e) => {
-      const x = e.clientX;
-      const y = e.clientY;
-      const hexagon = hexagons.find(
-        (hex) =>
-          x < hex.middleX + widthH / 2 &&
-          x > hex.middleX - widthH / 2 &&
-          y < hex.middleY + heightH / 2 &&
-          y > hex.middleY - heightH / 2
-      );
-      if (hexagon) {
-        hexagon.drawM = true;
-      }
-    });
-
-  document
-    .querySelector<HTMLElement>(".s1")
-    .addEventListener("touchmove", (event) => {
-      const y = event.changedTouches[0].clientY;
-      const x = event.changedTouches[0].clientX;
-      const hexagon = hexagons.find(
-        (hex) =>
-          x < hex.middleX + widthH / 2 &&
-          x > hex.middleX - widthH / 2 &&
-          y < hex.middleY + heightH / 2 &&
-          y > hex.middleY - heightH / 2
-      );
-      if (hexagon) {
-        hexagon.drawM = true;
-      }
-    });
-
-  init();
-  loop();
 };
 
 export default meshNeon;

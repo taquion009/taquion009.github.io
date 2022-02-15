@@ -1,10 +1,6 @@
 import * as Matter from "matter-js";
-import icons from "../../public/img/icons.png";
 
-const { Engine, Render, Bodies, World, MouseConstraint, Events, Runner } =
-  Matter;
-
-const ImgIcons: string[] = [];
+const { Engine, Render, Bodies, World, MouseConstraint, Runner } = Matter;
 
 const names = [
   "JavaScript",
@@ -22,35 +18,6 @@ const names = [
 
 const engine = Matter.Engine.create();
 
-const createImg = async (img: string, quantity: number) => {
-  for (let i = 0; i < quantity; i++) {
-    let x = i * 80;
-    try {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      canvas.width = 80;
-      canvas.height = 80;
-      const imgElement = new Image();
-      imgElement.src = img;
-      let slice = new Image();
-
-      const waitForImageToLoad = (imageElement: HTMLImageElement) => {
-        return new Promise((resolve) => {
-          imageElement.onload = resolve;
-        });
-      };
-      await waitForImageToLoad(imgElement);
-      ctx.drawImage(imgElement, x, 0, 80, 80, 0, 0, 80, 80);
-      slice.src = canvas.toDataURL();
-
-      await waitForImageToLoad(slice);
-      ImgIcons.push(slice.src);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-};
-
 const getELements = (
   img: string[],
   positions: number[][],
@@ -60,7 +27,6 @@ const getELements = (
   engine: Matter.Engine
 ): Matter.Body[] => {
   let elements = [];
-  console.log(size * widthElement, size, widthElement);
   for (let i = 0; i < names.length; i++) {
     let element = Bodies.rectangle(
       positions[i][0],
@@ -83,17 +49,17 @@ const getELements = (
 
     World.add(engine.world, [element]);
     elements.push(element);
+
     let $spanText = document.createElement("span");
+
     $spanText.innerHTML = content[i] || "Otro";
     $spanText.style.position = "absolute";
-    $spanText.style.top = `${
-      positions[i][1] + (widthElement * size) / 2 + 10 * size
-    }px`;
+    $spanText.style.top = `${positions[i][1] + (widthElement * size) / 2}px`;
+    $spanText.style.width = `${widthElement * size + 50}px`;
     $spanText.style.left = `${
-      positions[i][0] - (widthElement * size) / 2 - 25
+      positions[i][0] - (50 + widthElement * size) / 2
     }px`;
-    $spanText.style.width = `${50 + widthElement * size}px`;
-    $spanText.style.height = `30px`;
+    $spanText.style.padding = `${5 * size}px`;
     $spanText.style.fontSize = `${16 * size}px`;
     document
       .querySelector<HTMLElement>(".container-gravity")
@@ -102,7 +68,12 @@ const getELements = (
   return elements;
 };
 
-const createElements = (engine: Matter.Engine, w: number, h: number) => {
+const createElements = (
+  engine: Matter.Engine,
+  w: number,
+  h: number,
+  images: any
+) => {
   let positions: number[][] = [];
 
   let row = 0;
@@ -156,7 +127,7 @@ const createElements = (engine: Matter.Engine, w: number, h: number) => {
   });
 
   let elements = getELements(
-    ImgIcons,
+    images,
     positions,
     92.5 - margin,
     size,
@@ -183,13 +154,16 @@ const createElements = (engine: Matter.Engine, w: number, h: number) => {
   };
 };
 
-function gravity(eventResize?: any) {
+function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
   const sectionTag = document.querySelector<HTMLElement>(".gravity");
   if (eventResize) {
     window.removeEventListener("resize", eventResize, false);
   }
-  const w = window.innerWidth;
-  const h = window.innerHeight;
+  let container = document.querySelector<HTMLCanvasElement>(
+    ".container-meshNeon"
+  );
+  const w = container.clientWidth;
+  const h = container.clientHeight;
   const renderer = Matter.Render.create({
     element: sectionTag,
     engine: engine,
@@ -215,12 +189,8 @@ function gravity(eventResize?: any) {
 
   let elements: any = [];
 
-  if (ImgIcons.length == 0) {
-    createImg(icons, names.length).then((img) => {
-      elements = createElements(engine, w, h);
-    });
-  } else {
-    elements = createElements(engine, w, h);
+  if (!!images) {
+    elements = createElements(engine, w, h, images);
   }
 
   mouseControl.mouse.element.removeEventListener(
@@ -241,13 +211,10 @@ function gravity(eventResize?: any) {
     }
   });
 
-  let space: any = null;
-
   mouseControl.mouse.element.addEventListener("touchend", (event) => {
     if ((!mouseControl.body || !mouseControl.body.isStatic) && touchStart) {
       event.preventDefault();
       touchStart = null;
-      space = null;
     }
   });
 
@@ -280,22 +247,33 @@ function gravity(eventResize?: any) {
   let runner = Runner.run(engine);
   Render.run(renderer);
 
+  let heightBefore = window.innerHeight;
+  let widthBefore = window.innerWidth;
+  let barNab = container.clientHeight - window.innerHeight;
   let event = () => {
-    if (renderer.canvas) {
-      World.clear(engine.world, null);
-      Engine.clear(engine);
-      Render.stop(renderer);
-      Runner.stop(runner);
-      renderer.canvas.remove();
-      renderer.canvas = null;
-      renderer.context = null;
-      renderer.textures = {};
-      renderer.sprites = {};
-      document.querySelector(".container-gravity").innerHTML = "";
-      let canvas = document.createElement("div");
-      canvas.classList.add("gravity");
-      document.querySelector(".container-gravity").appendChild(canvas);
-      gravity(event);
+    if (
+      heightBefore - window.innerHeight > barNab ||
+      window.innerHeight - heightBefore > barNab ||
+      (heightBefore === window.innerHeight && widthBefore !== window.innerWidth)
+    ) {
+      if (renderer.canvas) {
+        World.clear(engine.world, null);
+        Engine.clear(engine);
+        Render.stop(renderer);
+        Runner.stop(runner);
+        renderer.canvas.remove();
+        renderer.canvas = null;
+        renderer.context = null;
+        renderer.textures = {};
+        renderer.sprites = {};
+        document.querySelector(".container-gravity").innerHTML = "";
+        let canvas = document.createElement("div");
+        canvas.classList.add("gravity");
+        document.querySelector(".container-gravity").appendChild(canvas);
+        gravity(event, images);
+      }
+      heightBefore = window.innerHeight;
+      widthBefore = window.innerWidth;
     }
   };
   window.addEventListener("resize", event, false);

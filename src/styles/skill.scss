@@ -52,11 +52,21 @@
   text-align: center;
 }
 
+.container-gravity {
+  width: 100%;
+  height: 100%;
+}
+
+.container-gravity .gravity {
+  width: 100%;
+  height: 100%;
+}
+
 .container-gravity canvas {
   overflow: scroll;
   z-index: 6;
-  width: 100vw;
-  height: 100vh;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .click {
