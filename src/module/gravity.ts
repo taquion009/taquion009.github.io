@@ -1,4 +1,5 @@
-import * as Matter from "matter-js";
+const Matter = require("../lib/matter.js");
+import { gsap } from "gsap";
 
 const { Engine, Render, Bodies, World, MouseConstraint, Runner } = Matter;
 
@@ -80,7 +81,7 @@ const createElements = (
   let cantidad = 18;
   let borderH = 25;
   let space = 0;
-  let borderW = 80;
+  let borderW = 100;
   let borderTop = 64;
   let widthElement = 92.5;
   let margin = 12;
@@ -88,7 +89,10 @@ const createElements = (
     (w - borderW * 2 + widthElement + (h - borderH)) /
     (cantidad * widthElement);
   if (size > 1) size = 1;
-  if (w < 980) borderTop = 32;
+  if (w < 980) {
+    borderTop = 32;
+    borderW = 80;
+  }
   widthElement *= size;
   let y = widthElement + borderTop + borderH + margin * 2 * size;
   for (let i = 0; i < cantidad; i++) {
@@ -154,13 +158,47 @@ const createElements = (
   };
 };
 
-function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
+let time = gsap
+  .timeline({
+    repeat: -1,
+    delay: 1.2,
+  })
+  .to(".animation-drag", {
+    duration: 0.25,
+    opacity: 1,
+  })
+  .to(".animation-drag .mouse", {
+    duration: 0.5,
+    y: "+=100%",
+  })
+  .to(".animation-drag", {
+    duration: 0.5,
+    x: "150",
+    y: "-150",
+  })
+  .to(".animation-drag .box", {
+    delay: 0.25,
+    duration: 0.5,
+    y: "+=150",
+  })
+  .to(".animation-drag", {
+    delay: 0.5,
+    duration: 0.5,
+    opacity: 0,
+  })
+  .pause();
+
+function gravity(
+  eventResize?: any,
+  images?: string[] | HTMLImageElement,
+  observeCanvas?: { view: { [key: string]: boolean } }
+) {
   const sectionTag = document.querySelector<HTMLElement>(".gravity");
   if (eventResize) {
     window.removeEventListener("resize", eventResize, false);
   }
   let container = document.querySelector<HTMLCanvasElement>(
-    ".container-meshNeon"
+    ".container-background-hexagon"
   );
   const w = container.clientWidth;
   const h = container.clientHeight;
@@ -188,46 +226,203 @@ function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
   World.add(engine.world, mouseControl);
 
   let elements: any = [];
-
+  let touchStart: any = null;
+  let containerGravity = document.querySelector<HTMLElement>(
+    ".container-gravity-move"
+  );
   if (!!images) {
     elements = createElements(engine, w, h, images);
   }
+
+  if (!observeCanvas.view.gravity) {
+    observeCanvas.view.gravity = true;
+
+    setTimeout(() => {
+      observeCanvas.view.gravity = false;
+    }, 200);
+  }
+
+  const findElement = (x: number, y: number) => {
+    let dif = window.screenY - containerGravity.getBoundingClientRect().top;
+
+    y += dif;
+    let element = elements.elements.find((el: Matter.Body) => {
+      return (
+        x > el.position.x - (el.bounds.max.x - el.bounds.min.x) / 2 &&
+        x < el.position.x + (el.bounds.max.x - el.bounds.min.x) / 2 &&
+        y > el.position.y - (el.bounds.max.y - el.bounds.min.y) / 2 &&
+        y < el.position.y + (el.bounds.max.y - el.bounds.min.y) / 2
+      );
+    });
+
+    return element;
+  };
+
+  function onTouch(evt: any) {
+    evt.preventDefault();
+    if (
+      evt.touches.length > 1 ||
+      (evt.type == "touchend" && evt.touches.length > 0)
+    )
+      return;
+
+    let type = null;
+    let touch = null;
+
+    switch (evt.type) {
+      case "touchstart":
+        type = "mousedown";
+        touch = evt.changedTouches[0];
+        break;
+      case "touchmove":
+        type = "mousemove";
+        touch = evt.changedTouches[0];
+        break;
+      case "touchend":
+        type = "mouseup";
+        touch = evt.changedTouches[0];
+        break;
+    }
+
+    let newEvt = new MouseEvent(type, {
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      bubbles: true,
+      cancelable: true,
+      altKey: evt.altKey,
+      button: evt.button,
+      buttons: evt.buttons,
+      ctrlKey: evt.ctrlKey,
+      metaKey: evt.metaKey,
+      shiftKey: evt.shiftKey,
+      relatedTarget: evt.relatedTarget,
+      screenX: touch.screenX,
+      screenY: touch.screenY,
+      view: window,
+      detail: 0,
+    });
+    mouseControl.mouse.element.dispatchEvent(newEvt);
+  }
+
+  const onMouse = (evt: any) => {
+    evt.preventDefault();
+
+    let newEvt = new MouseEvent(evt.type, {
+      clientX: evt.clientX,
+      clientY: evt.clientY,
+      bubbles: true,
+      cancelable: true,
+      altKey: evt.altKey,
+      button: evt.button,
+      buttons: evt.buttons,
+      ctrlKey: evt.ctrlKey,
+      metaKey: evt.metaKey,
+      shiftKey: evt.shiftKey,
+      relatedTarget: evt.relatedTarget,
+      screenX: evt.screenX,
+      screenY: evt.screenY,
+      view: window,
+      detail: 0,
+    });
+
+    mouseControl.mouse.element.dispatchEvent(newEvt);
+  };
 
   mouseControl.mouse.element.removeEventListener(
     "mousewheel",
     mouseControl.mouse.mousewheel
   );
+
   mouseControl.mouse.element.removeEventListener(
     "DOMMouseScroll",
     mouseControl.mouse.mousewheel
   );
 
-  let touchStart: any = null;
-  mouseControl.mouse.element.addEventListener("touchstart", (event) => {
-    if (!mouseControl.body) {
-      touchStart = event;
-    } else if (!mouseControl.body.isStatic) {
-      touchStart = event;
-    }
-  });
+  mouseControl.mouse.element.removeEventListener(
+    "touchstart",
+    mouseControl.mouse.mousedown
+  );
 
-  mouseControl.mouse.element.addEventListener("touchend", (event) => {
-    if ((!mouseControl.body || !mouseControl.body.isStatic) && touchStart) {
+  mouseControl.mouse.element.removeEventListener(
+    "touchmove",
+    mouseControl.mouse.mousemove
+  );
+
+  mouseControl.mouse.element.addEventListener(
+    "touchstart",
+    mouseControl.mouse.mousedown,
+    {
+      passive: false,
+    }
+  );
+
+  mouseControl.mouse.element.addEventListener(
+    "touchmove",
+    mouseControl.mouse.mousemove,
+    {
+      passive: false,
+    }
+  );
+
+  const eventStart = (event: any) => {
+    let x = event.clientX || event.touches[0]?.clientX;
+    let y = event.clientY || event.touches[0]?.clientY;
+
+    let element = findElement(x, y);
+
+    if (!element || element.isStatic) {
+      touchStart = {
+        x: x,
+      };
+    } else {
       event.preventDefault();
+      if (time.isActive()) {
+        document.getElementById("animation-drag").style.display = "none";
+        time.pause();
+        time.kill();
+        time.restart();
+      }
+      if (event.clientX) {
+        onMouse(event);
+      } else {
+        onTouch(event);
+      }
+    }
+  };
+
+  const eventEnd = (event: any) => {
+    if (!touchStart) {
+      if (event.clientX) {
+        onMouse(event);
+      } else {
+        onTouch(event);
+      }
+    } else {
       touchStart = null;
     }
-  });
+  };
 
-  mouseControl.mouse.element.addEventListener("touchmove", (event) => {
-    if ((!mouseControl.body || mouseControl.body.isStatic) && touchStart) {
+  const eventMove = (event: any) => {
+    if (!touchStart) {
       event.preventDefault();
-      let start = touchStart.touches[0].clientY;
-      let end = event.touches[0].clientY;
-      let delta = start - end;
-      window.scrollTo(0, window.scrollY + delta);
-      touchStart = event;
+      if (event.clientX) {
+        onMouse(event);
+      } else {
+        onTouch(event);
+      }
     }
+  };
+
+  containerGravity.addEventListener("touchstart", eventStart, {
+    passive: false,
   });
+  containerGravity.addEventListener("touchend", eventEnd);
+  containerGravity.addEventListener("touchmove", eventMove, {
+    passive: false,
+  });
+  containerGravity.addEventListener("mousedown", eventStart);
+  containerGravity.addEventListener("mouseup", eventEnd);
+  containerGravity.addEventListener("mousemove", eventMove);
 
   const $click = document.querySelector<HTMLElement>(".click");
   $click.style.position = "absolute";
@@ -237,6 +432,8 @@ function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
 
   $click.addEventListener("click", (event) => {
     if (elements.elements.length > 0) {
+      document.getElementById("animation-drag").style.display = "flex";
+      time.play();
       $click.style.display = "none";
       elements.elements.forEach((element: any) => {
         Matter.Body.set(element, "isStatic", false);
@@ -244,8 +441,8 @@ function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
     }
   });
 
-  let runner = Runner.run(engine);
-  Render.run(renderer);
+  let runner = Runner.run(observeCanvas.view, engine);
+  Render.run(renderer, observeCanvas.view);
 
   let heightBefore = window.innerHeight;
   let widthBefore = window.innerWidth;
@@ -270,7 +467,19 @@ function gravity(eventResize?: any, images?: string[] | HTMLImageElement) {
         let canvas = document.createElement("div");
         canvas.classList.add("gravity");
         document.querySelector(".container-gravity").appendChild(canvas);
-        gravity(event, images);
+        containerGravity.removeEventListener("touchstart", eventStart);
+        containerGravity.removeEventListener("touchend", eventEnd);
+        containerGravity.removeEventListener("touchmove", eventMove);
+        containerGravity.removeEventListener("mousedown", eventStart);
+        containerGravity.removeEventListener("mouseup", eventEnd);
+        containerGravity.removeEventListener("mousemove", eventMove);
+        if (time.isActive()) {
+          document.getElementById("animation-drag").style.display = "none";
+          time.pause();
+          time.kill();
+          time.restart();
+        }
+        gravity(event, images, observeCanvas);
       }
       heightBefore = window.innerHeight;
       widthBefore = window.innerWidth;

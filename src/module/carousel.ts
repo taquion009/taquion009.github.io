@@ -53,9 +53,15 @@ const carousel = () => {
   let start = 0;
   let suma = 0;
 
-  carousel.addEventListener("touchstart", (e) => {
-    start = e.touches[0].clientX;
-  });
+  carousel.addEventListener(
+    "touchstart",
+    (e) => {
+      start = e.touches[0].clientX;
+    },
+    {
+      passive: false,
+    }
+  );
 
   window.addEventListener("touchend", (e) => {
     active = Math.round(active + suma * -1);
@@ -75,13 +81,7 @@ const carousel = () => {
   window.addEventListener("touchmove", (e) => {
     if (start) {
       let offset = e.touches[0].clientX - start;
-
-      if (offset < -5) {
-        suma -= 0.09;
-      } else if (offset > 5) {
-        suma += 0.09;
-      }
-
+      suma += offset / carousel.clientWidth;
       updateCarousel(suma);
 
       start = e.touches[0].clientX;
@@ -91,13 +91,7 @@ const carousel = () => {
   window.addEventListener("mousemove", (e) => {
     if (start) {
       let offset = e.clientX - start;
-
-      if (offset < -5) {
-        suma -= 0.09;
-      } else if (offset > 5) {
-        suma += 0.09;
-      }
-
+      suma += offset / carousel.clientWidth;
       updateCarousel(suma);
 
       start = e.clientX;

@@ -28,7 +28,7 @@
   font-size: 1.75em;
   margin-bottom: 0.5em;
   position: relative;
-  z-index: 6;
+  z-index: 8;
 }
 
 .section-container .s3 .s3-container .s3-content p {
@@ -44,6 +44,15 @@
   width: 100%;
   height: 100%;
   z-index: 5;
+}
+
+.container-gravity-move {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 6;
 }
 
 .container-gravity > span {
@@ -76,16 +85,17 @@
   position: absolute;
   top: 19%;
   left: 2.5%;
+  overflow: hidden;
   display: flex;
   flex-direction: row;
   align-content: center;
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  font-size: 12px;
-  z-index: 6;
-  font-family: cursive;
-  transform: scale(0) translate(-50%, -50%);
+  font-size: 11px;
+  font-weight: 400;
+  z-index: 8;
+  transform: scale(0);
   -webkit-clip-path: polygon(
     0% 50%,
     25% 95%,
@@ -235,6 +245,37 @@
   }
 }
 
+.animation-drag {
+  position: absolute;
+  top: calc(100% - 100px);
+  left: calc(60% - 220px);
+  width: 100px;
+  height: 100px;
+  display: none;
+  opacity: 0;
+}
+
+.animation-drag .box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px;
+  height: 100px;
+}
+
+.animation-drag .box rect {
+  stroke: #aaa;
+}
+
+.animation-drag .mouse {
+  fill: #aaa;
+  position: absolute;
+  top: -70%;
+  left: -25%;
+  width: 103px;
+  height: 106px;
+}
+
 @keyframes wave {
   0% {
     transform: translate(-50%, -50%) rotate(0deg);
@@ -249,18 +290,23 @@
 
 .section-container .s3 .circle {
   &::before {
-    content: '\2B22';
-    font-size: 400px;
+    content: '';
     width: 400px;
     height: 400px;
     position: absolute;
-    top: 100%;
-    left: 100%;
-    -webkit-text-stroke-width: 40px;
-    -webkit-text-fill-color: #0dac5400;
-    -webkit-text-stroke-color: var(--background-secondary);
-    transform: translate(-50%, -50%) rotate(90deg);
+    top: calc(100% - 200px);
+    left: calc(100% - 200px);
     z-index: -7;
+    -webkit-clip-path: polygon(
+      0% 50%,
+      25% 95%,
+      75% 95%,
+      100% 50%,
+      75% 5%,
+      25% 5%
+    );
+    clip-path: polygon(0% 50%, 25% 95%, 75% 95%, 100% 50%, 75% 5%, 25% 5%);
+    background: var(--background-secondary);
   }
 }
 
@@ -275,5 +321,22 @@
 
   .section-container .s3 .s3-container .s3-content p {
     font-size: 1em;
+  }
+
+  .animation-drag {
+    top: calc(100% - 70px);
+    left: calc(80% - 220px);
+    width: 70px;
+    height: 100px;
+  }
+
+  .animation-drag .box {
+    width: 70px;
+    height: 70px;
+  }
+
+  .animation-drag .mouse {
+    width: 73px;
+    height: 76px;
   }
 }

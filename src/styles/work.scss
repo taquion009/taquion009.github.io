@@ -2,6 +2,7 @@
 .section-container .s4 {
   background-color: var(--background-primary);
   overflow: hidden;
+  min-height: 100vh;
 }
 
 .section-container .s4 .s4-container {
@@ -11,7 +12,12 @@
   max-width: var(--max-width);
   margin: auto;
   z-index: -2;
-  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .section-container .s4 .s4-container .s4-content {
@@ -33,18 +39,23 @@
 
 .section-container .s4 .circle {
   &::before {
-    content: "\2B22";
-    font-size: 400px;
+    content: '';
     width: 400px;
     height: 400px;
     position: absolute;
-    top: 100%;
-    left: 15%;
-    -webkit-text-stroke-width: 40px;
-    -webkit-text-fill-color: #0dac5400;
-    -webkit-text-stroke-color: var(--background-secondary);
-    transform: translate(-50%, -50%) rotate(90deg);
+    top: calc(100% - 200px);
+    left: calc(10% - 200px);
     z-index: -7;
+    -webkit-clip-path: polygon(
+      0% 50%,
+      25% 95%,
+      75% 95%,
+      100% 50%,
+      75% 5%,
+      25% 5%
+    );
+    clip-path: polygon(0% 50%, 25% 95%, 75% 95%, 100% 50%, 75% 5%, 25% 5%);
+    background: var(--background-secondary);
   }
 }
 

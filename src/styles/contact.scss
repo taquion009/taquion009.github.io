@@ -89,7 +89,7 @@
     color: var(--color-text-primary);
     font-size: 1em;
     font-weight: 700;
-    font-family: "Poppins", sans-serif;
+    font-family: 'Gotham', sans-serif;
   }
 
   & input::placeholder,
@@ -102,7 +102,7 @@
   }
 
   & > li label::before {
-    content: "";
+    content: '';
     position: absolute;
     bottom: 1px;
     left: 0;
@@ -142,6 +142,7 @@
   padding: 1em 2em;
   position: relative;
   margin: 0 auto;
+  margin-top: 1em;
   outline: none;
   border: 2px solid var(--color-primary);
   color: var(--color-primary);
@@ -156,7 +157,7 @@
   overflow: hidden;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -165,8 +166,8 @@
     background: var(--color-primary);
     background: linear-gradient(
       117deg,
-      var(--color-primary) 90%,
-      rgba(0, 0, 0, 0) 90%
+      var(--color-primary) 85%,
+      rgba(0, 0, 0, 0) 80%
     );
     -webkit-transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -175,7 +176,7 @@
   }
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -244,19 +245,182 @@
 
 .section-container .s5 .circle {
   &::before {
-    content: "\2B22";
-    font-size: 400px;
+    content: '';
     width: 400px;
     height: 400px;
     position: absolute;
-    top: 50%;
-    left: 110%;
-    -webkit-text-stroke-width: 40px;
-    -webkit-text-fill-color: #0dac5400;
-    -webkit-text-stroke-color: var(--background-secondary);
-    transform: translate(-50%, -50%) rotate(90deg);
+    top: calc(50% - 200px);
+    left: calc(100% - 200px);
     z-index: -7;
+    -webkit-clip-path: polygon(
+      0% 50%,
+      25% 95%,
+      75% 95%,
+      100% 50%,
+      75% 5%,
+      25% 5%
+    );
+    clip-path: polygon(0% 50%, 25% 95%, 75% 95%, 100% 50%, 75% 5%, 25% 5%);
+    background: var(--background-secondary);
   }
+}
+
+.section-container .s5 .form-messages {
+  font-size: 0.8em;
+  font-weight: 300;
+}
+
+.section-container .s5 .form-messages a {
+  color: var(--color-primary);
+}
+
+.container-message-contact {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 999999;
+  display: none;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  background: #00000090;
+  backdrop-filter: blur(2px);
+}
+
+.container-message-contact.active {
+  display: flex;
+}
+
+.container-message-contact .message-contact {
+  max-width: 350px;
+  height: 289px;
+  background: var(--background-tertiary);
+  width: calc(100% - 2em);
+  border-radius: 5px;
+  text-align: center;
+  padding: 3em 1em 1em 1em;
+  position: relative;
+  -webkit-animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation: slide-in-top 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+}
+
+.container-message-contact .message-contact h3 {
+  font-size: 2em;
+  font-weight: 500;
+  margin-top: 1em;
+}
+
+.container-message-contact .message-contact p {
+  font-size: 1.15em;
+}
+
+.container-message-contact .message-contact button {
+  background: var(--background-primary);
+  padding: 1em 2em;
+  position: relative;
+  margin: 0 auto;
+  outline: none;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  cursor: pointer;
+  font-size: 1em;
+  max-width: 100%;
+  width: 100%;
+  letter-spacing: 4px;
+  overflow: hidden;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 150%;
+    height: 100%;
+    background: var(--color-primary);
+    background: linear-gradient(
+      117deg,
+      var(--color-primary) 85%,
+      rgba(0, 0, 0, 0) 80%
+    );
+    -webkit-transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: -1;
+    transform: translate(-100%, 0);
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--background-primary);
+    z-index: -2;
+    opacity: 0;
+  }
+
+  &:hover:after {
+    transform: translate(0, 0);
+  }
+
+  &:hover:before {
+    opacity: 1;
+  }
+
+  &:hover {
+    color: var(--background-primary);
+    background-color: transparent;
+  }
+}
+
+.container-message-contact .icon-message-contact {
+  width: 100px;
+  height: 100px;
+  display: none;
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 50px);
+  -webkit-animation: slide-in-bck-center 0.7s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+  animation: slide-in-bck-center 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s
+    both;
+}
+
+.container-message-contact .icon-message-contact.active {
+  display: block;
+}
+
+span.icon-message-contact:before {
+  content: '';
+  display: block;
+  background: var(--background-primary);
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  z-index: 0;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  -webkit-animation: slide-in-bck-center 0.7s
+    cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+  animation: slide-in-bck-center 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s
+    both;
+}
+
+.container-message-contact .icon-message-contact svg {
+  fill: var(--color-primary);
+  border-radius: inherit;
+  width: 100px;
+  position: relative;
 }
 
 @media screen and (max-width: 980px) {
@@ -267,11 +431,11 @@
   }
 
   .section-container .s5 .s5-container .s5-content {
-    margin-top: 1em;
+    margin: 1em 0;
   }
 
   .section-container .s5 .s5-container .s5-content h3 {
-    font-size: 1.4em;
+    font-size: 1.5em;
   }
 
   .section-container .s5 .s5-container .s5-content p {
@@ -287,5 +451,11 @@
     width: 100%;
     padding: 0;
     margin-top: 2em;
+  }
+  .section-container .s5 .s5-container .container-form form .container-inputs {
+    & li input,
+    & li textarea {
+      padding: 1em;
+    }
   }
 }

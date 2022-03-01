@@ -5,7 +5,6 @@ header {
   top: 0;
   left: 0;
   z-index: 10;
-  display: flex;
   align-items: center;
   justify-content: space-around;
 }
@@ -157,16 +156,29 @@ header .container-header .header ul li:hover a {
   transition: opacity 0.3s ease-in-out;
 }
 
+.container-menu .menu-logo {
+  position: absolute;
+  top: 1em;
+  left: 1em;
+  width: 4em;
+  height: 4em;
+}
+
+.container-menu .menu-logo img {
+  width: 100%;
+  height: auto;
+}
+
 .container-menu ul {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-content: space-around;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   color: var(--color-text-primary);
-  padding: 4em 1em;
-  height: 100%;
+  padding: 4em 1em 1em 1em;
+  height: 70%;
   width: 100%;
   max-width: var(--max-width);
   margin: auto;
@@ -174,15 +186,18 @@ header .container-header .header ul li:hover a {
 }
 
 .container-menu ul li {
-  width: 100%;
-}
-
-.container-menu ul li.group-contacts {
-  width: 4em;
-}
-
-.container-menu ul li.group-contacts svg {
-  fill: var(--color-text-primary);
+  width: min(31vw, 31vh);
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  height: min(31vw, 31vh);
+  max-width: 10em;
+  max-height: 10em;
+  display: flex;
+  background: var(--color-primary);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .container-menu ul a {
@@ -190,11 +205,112 @@ header .container-header .header ul li:hover a {
   width: 100%;
   display: block;
   text-align: center;
-  font-weight: 900;
+  font-weight: 400;
   font-size: 1em;
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  -webkit-clip-path: polygon(
+    0% 50%,
+    25% 95%,
+    75% 95%,
+    100% 50%,
+    75% 5%,
+    25% 5%
+  );
+  clip-path: polygon(0% 50%, 25% 95%, 75% 95%, 100% 50%, 75% 5%, 25% 5%);
+  -webkit-clip-path: polygon(
+    50% 0%,
+    95% 25%,
+    95% 75%,
+    50% 100%,
+    5% 75%,
+    5% 25%
+  );
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+  background: var(--background-primary);
+  width: 90%;
+  height: 90%;
+  max-width: 9.7em;
+  max-height: 9.7em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-menu .group-contacts {
+  padding: 0 1em 4em 1em;
+  height: 30%;
+}
+
+.container-menu ul.group-contacts li {
+  width: min(27vw, 27vh);
+  height: min(27vw, 27vh);
+  max-width: 7em;
+  max-height: 7em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container-menu ul.group-contacts li a svg {
+  fill: var(--color-text-primary);
+  font-size: 1.5em;
+  width: 60%;
+}
+
+.container-menu .menu-list {
+  display: grid;
+  grid-template-columns: repeat(4, min(13.5vw, 13.5vh));
+  position: relative;
+  align-content: center;
+  justify-content: center;
+}
+
+.container-menu .menu-list .menu-item {
+  grid-column: span 2;
+  margin-top: max(-8.7vw, -8.7vh);
+}
+
+.container-menu .menu-list .menu-item:nth-child(5n + 1) {
+  grid-column-start: 1;
+}
+.container-menu .menu-list .menu-item:nth-child(5n + 2) {
+  grid-column-start: 3;
+}
+.container-menu .menu-list .menu-item:nth-child(5n + 3) {
+  grid-column-start: 5;
+}
+.container-menu .menu-list .menu-item:nth-child(5n + 4) {
+  grid-column-start: 2;
+}
+.container-menu .menu-list .menu-item:nth-child(5n) {
+  grid-column-start: 4;
+}
+
+@media screen and (min-width: 515px) {
+  .container-menu .menu-list {
+    grid-template-columns: repeat(4, min(70px, min(13.5vw, 13.5vh)));
+  }
+
+  .container-menu .menu-list .menu-item {
+    grid-column: span 2;
+    margin-top: max(-46px, max(-8.7vw, -8.7vh));
+  }
 }
 
 @media screen and (max-width: 980px) {
+  header {
+    width: auto;
+    position: fixed;
+    top: 0;
+    left: calc(100% - 80px);
+    z-index: 10;
+    align-items: center;
+    justify-content: space-around;
+    width: auto;
+  }
   header .container-header {
     padding: 1em;
   }

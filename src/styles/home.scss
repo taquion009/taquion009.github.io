@@ -5,6 +5,7 @@
   overflow: hidden;
   z-index: 1;
   visibility: visible;
+  height: 100vh;
 }
 
 .section-container .s1 .s1-container {
@@ -32,6 +33,8 @@
   color: var(--color-primary);
   cursor: pointer;
   font-size: 1em;
+  font-family: 'Gotham';
+  font-weight: 400;
   max-width: 100%;
   width: auto;
   letter-spacing: 4px;
@@ -41,7 +44,7 @@
   overflow: hidden;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -60,7 +63,7 @@
   }
 
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
@@ -85,6 +88,10 @@
   }
 }
 
+.section-container > section {
+  min-height: 100vh;
+}
+
 .section-container .s1 .s1-title {
   z-index: -4;
   position: relative;
@@ -106,6 +113,7 @@
 .section-container .s1 .s1-title h1 {
   font-size: 5em;
   text-align: left;
+  font-weight: 900;
   -webkit-animation: bounce-in-top 1.1s both;
   animation: bounce-in-top 1.1s both;
 }
@@ -156,6 +164,7 @@
   align-items: center;
   gap: 0.25em;
   animation: scroll-1 4s ease-in-out infinite both;
+  opacity: 0;
 }
 
 .scroll svg {
@@ -190,6 +199,7 @@
   .section-container .s1 {
     position: relative;
   }
+
   .section-container .s1 .s1-container {
     padding: 1em;
     text-align: center;
@@ -197,6 +207,7 @@
     flex-direction: column;
     justify-content: space-evenly;
   }
+
   .section-container .s1 .s1-title {
     z-index: -4;
     position: relative;
@@ -218,10 +229,12 @@
     text-align: center;
     font-size: 2.3em;
   }
+
   .section-container .s1 .s1-title h2 {
     font-size: 1.8em;
     text-align: center;
   }
+
   .section-container .s1 .s1-title h3 {
     font-size: 1.5em;
     text-align: center;

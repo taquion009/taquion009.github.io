@@ -1,14 +1,20 @@
-import { grate } from "./animation"
+import { grate } from "./animation";
 import { gsap } from "gsap";
 
+let repeat = 0;
+
 const animationHome = () => {
-    grate(1, 0.6, ".grate-1")
+  if (repeat == 1) return;
 
-    gsap.from(".scroll", {
-        delay: 1.5,
-        duration: 0.2,
-        opacity: 0,
-    })
-}
+  grate(1, 0.6, ".grate-1");
 
-export default animationHome
+  gsap.to(".scroll", {
+    delay: 1.5,
+    duration: 0.2,
+    opacity: 1,
+  });
+
+  repeat++;
+};
+
+export default animationHome;

@@ -1,11 +1,13 @@
-import "../styles/meshNeon.scss";
+import "../styles/backgroundHexagon.scss";
 import SimplexNoise from "simplex-noise";
 
-const meshNeon = () => {
+const backgroundHexagon = (observeCanvas: {
+  view: { [key: string]: boolean };
+}) => {
   const simplex = new SimplexNoise("seed");
-  let canvas = document.querySelector<HTMLCanvasElement>(".meshNeon");
+  let canvas = document.querySelector<HTMLCanvasElement>("#background-hexagon");
   let container = document.querySelector<HTMLCanvasElement>(
-    ".container-meshNeon"
+    ".container-background-hexagon"
   );
   const ctx = canvas.getContext("2d");
   let width = (canvas.width = window.innerWidth);
@@ -18,6 +20,14 @@ const meshNeon = () => {
   let heightBefore = window.innerHeight;
   let widthBefore = window.innerWidth;
   let barNab = container.clientHeight - window.innerHeight;
+
+  if (!observeCanvas.view.backgroundHexagon) {
+    observeCanvas.view.backgroundHexagon = true;
+
+    setTimeout(() => {
+      observeCanvas.view.backgroundHexagon = false;
+    }, 200);
+  }
 
   class HEXAGON {
     x: number;
@@ -90,7 +100,7 @@ const meshNeon = () => {
   class RenderHexagon {
     RESIZE_INTERVAL: number = 30;
     RADIUS: number = sizeH;
-    RATE: number = 0.98;
+    RATE: number = 1;
     hexagons: any[] = [];
     width: number = window.innerWidth;
     height: number = window.innerHeight;
@@ -101,7 +111,7 @@ const meshNeon = () => {
     context: any = ctx;
     tmpWidth: number = 0;
     tmpHeight: number = 0;
-    stop: boolean = false;
+    stop: boolean = true;
 
     init() {
       this.setup();
@@ -166,7 +176,6 @@ const meshNeon = () => {
       canvas.width = container.clientWidth;
       canvas.height = container.clientHeight;
       this.setup();
-      this.render();
     }
 
     events() {
@@ -175,6 +184,11 @@ const meshNeon = () => {
         .addEventListener("mousemove", (e: MouseEvent) => {
           let x = e.clientX;
           let y = e.clientY;
+          if (!observeCanvas.view.backgroundHexagon) {
+            observeCanvas.view.backgroundHexagon = true;
+            observeCanvas.view.gravity = false;
+          }
+
           let select = this.hexagons.find((hexagon) => {
             return (
               x > hexagon.x - this.hexWidth / 2 &&
@@ -201,7 +215,7 @@ const meshNeon = () => {
     }
 
     loop() {
-      if (!this.stop) {
+      if (observeCanvas.view.backgroundHexagon) {
         let i = 0;
         this.context.clearRect(0, 0, this.width, this.height);
         for (let x = 0; x < this.hexagons.length; x++) {
@@ -217,6 +231,7 @@ const meshNeon = () => {
         }
         t += speed;
       }
+
       requestAnimationFrame(() => {
         this.loop();
       });
@@ -226,24 +241,6 @@ const meshNeon = () => {
   const app = new RenderHexagon();
   app.init();
 
-  let options: any = {
-    root: null,
-    rootMargin: "0px",
-    threshold: [0.1, 0],
-  };
-
-  new IntersectionObserver((entries, observer) => {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        if (entry.intersectionRatio >= 0.1) {
-          app.stop = false;
-        } else {
-          app.stop = true;
-        }
-      }
-    });
-  }, options).observe(document.querySelector(".s1"));
-
   window.addEventListener("resize", () => {
     if (
       heightBefore - window.innerHeight > barNab ||
@@ -251,11 +248,10 @@ const meshNeon = () => {
       (heightBefore === window.innerHeight && widthBefore !== window.innerWidth)
     ) {
       app.watchWindowSize();
-
       heightBefore = window.innerHeight;
       widthBefore = window.innerWidth;
     }
   });
 };
 
-export default meshNeon;
+export default backgroundHexagon;
