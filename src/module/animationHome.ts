@@ -8,7 +8,7 @@ const animationHome = () => {
 
   grate(1, 0.6, ".grate-1");
 
-  gsap.to(".scroll", {
+  gsap.to(".s1 .scroll", {
     delay: 1.5,
     duration: 0.2,
     opacity: 1,

@@ -11,10 +11,13 @@ const names = [
   "GIT",
   "NextJS",
   "NodeJS",
-  "Material ui",
+  "Redux",
   "TypeScript",
   "SCSS",
   "StyledComp",
+  "Material ui",
+  "NPM",
+  "Figma",
 ];
 
 const engine = Matter.Engine.create();

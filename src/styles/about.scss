@@ -1,4 +1,7 @@
 /* -------------------------------- SECCION TWO ABOUT ---------------------------------- */
+
+$border-portfile: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
+
 .section-container .s2 {
   background-color: var(--background-primary);
   overflow: hidden;
@@ -38,31 +41,56 @@
   font-weight: 400;
 }
 
+.section-container .s2 .s2-container .s2-content a {
+  color: var(--color-primary);
+  cursor: pointer;
+}
+
 .section-container .s2 .porfile-container {
   position: relative;
   opacity: 0;
+  width: 300px;
+  max-width: 100%;
+  height: 300px;
 }
 
 .section-container .s2 .porfile-container .border {
   position: absolute;
-  top: -4px;
-  left: -4px;
-  width: calc(100% + 4px);
-  height: calc(100% + 4px);
-  border: 8px solid #000000c4;
+  top: -6px;
+  left: -6px;
+  width: calc(100% + 12px);
+  height: calc(100% + 12px);
+  background: var(--color-primary);
   z-index: 1;
+  clip-path: polygon(50% 0%, 95% 25%, 95% 75%, 50% 100%, 5% 75%, 5% 25%);
 }
 
-.section-container .s2 .porfile-container .light {
+// .section-container .s2 .porfile-container .light {
+//   width: 100%;
+//   height: 100%;
+//   position: absolute;
+//   top: 0px;
+//   left: 0px;
+//   box-shadow: 0px 0px 57px 0px #fff, inset 0px 0px 58px 3px #fff;
+//   -webkit-animation: flicker-1 2s linear infinite both;
+//   animation: flicker-1 4s linear infinite both;
+//   background-color: rgba(255, 255, 255, 0.1);
+//   clip-path: $border-portfile;
+//   z-index: 3;
+// }
+
+.section-container .s2 .porfile-container .porfile {
   width: 100%;
   height: 100%;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  box-shadow: 0px 0px 57px 0px #fff, inset 0px 0px 58px 3px #fff;
-  -webkit-animation: flicker-1 2s linear infinite both;
-  animation: flicker-1 4s linear infinite both;
-  background-color: rgba(255, 255, 255, 0.1);
+}
+.section-container .s2 .porfile-container .porfile img {
+  clip-path: $border-portfile;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  position: relative;
+  z-index: 1;
 }
 
 .section-container .s2 .circle {

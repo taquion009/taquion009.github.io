@@ -27,9 +27,11 @@ const observeCanvas = {
 let observered = observer(observeCanvas);
 
 window.addEventListener("DOMContentLoaded", function () {
-  window.scrollTo(0, 0);
+  if (window.innerWidth > 980) {
+    window.scroll(0, window.screen.height);
+  }
 
-  loadImage(11).then((images) => {
+  loadImage(14).then((images) => {
     chargingScreen().then((isCharging) => {
       if (isCharging) {
         document
