@@ -23,7 +23,10 @@ const carousel = () => {
     let VAROpacity = Math.abs(active - i) >= MAX_VISIBILITY ? "0" : "1";
     let VARDisplay = Math.abs(active - i) > MAX_VISIBILITY ? "none" : "block";
     el.style.setProperty("--active", VARActive);
-    el.style.setProperty("--offset", String(VAROffset));
+    el.style.setProperty(
+      "--offset",
+      VAROffset === 0 && VARAbsOffset === 0 ? "none" : String(VAROffset)
+    );
     el.style.setProperty("--abs-offset", String(VARAbsOffset));
     el.style.setProperty("--pointer-events", VARPointerEvents);
     el.style.setProperty("opacity", VAROpacity);
