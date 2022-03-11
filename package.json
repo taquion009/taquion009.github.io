@@ -23,7 +23,7 @@
     "dev": "npx webpack serve --mode development",
     "start": "npm run dev",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d dist"
   },
   "keywords": [],
   "author": "",
